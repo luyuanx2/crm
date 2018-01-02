@@ -22,15 +22,49 @@
  * THE SOFTWARE.
  */
 
-package com.yy.crm.mapper;
+package com.yy.crm.entity;
 
-
-import com.yy.crm.common.MyMapper;
-import com.yy.crm.entity.City;
+import javax.persistence.*;
 
 /**
- * @author liuzh_3nofxnp
- * @since 2016-01-22 22:17
+ * 基础信息
+ *
+ * @author liuzh
+ * @since 2016-01-31 21:42
  */
-public interface CityMapper extends MyMapper<City> {
+public class BaseEntity {
+    @Id
+    @Column(name = "Id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Transient
+    private Integer page = 1;
+
+    @Transient
+    private Integer rows = 10;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getRows() {
+        return rows;
+    }
+
+    public void setRows(Integer rows) {
+        this.rows = rows;
+    }
 }

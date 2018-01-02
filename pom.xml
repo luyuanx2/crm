@@ -14,6 +14,7 @@
         <module>crm-manage</module>
         <module>crm-util</module>
         <module>crm-service</module>
+        <module>crm-manage</module>
     </modules>
 
     <properties>

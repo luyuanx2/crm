@@ -22,15 +22,53 @@
  * THE SOFTWARE.
  */
 
-package com.yy.crm.mapper;
+package com.yy.crm.entity;
 
+public class Country extends BaseEntity {
+    /**
+     * 名称
+     */
+    private String countryname;
 
-import com.yy.crm.common.MyMapper;
-import com.yy.crm.entity.City;
+    /**
+     * 代码
+     */
+    private String countrycode;
 
-/**
- * @author liuzh_3nofxnp
- * @since 2016-01-22 22:17
- */
-public interface CityMapper extends MyMapper<City> {
+    /**
+     * 获取名称
+     *
+     * @return countryname - 名称
+     */
+    public String getCountryname() {
+        return countryname;
+    }
+
+    /**
+     * 设置名称
+     *
+     * @param countryname 名称
+     */
+    public void setCountryname(String countryname) {
+        this.countryname = countryname;
+    }
+
+    /**
+     * 获取代码
+     *
+     * @return countrycode - 代码
+     */
+    public String getCountrycode() {
+        return countrycode;
+    }
+
+    /**
+     * 设置代码
+     *
+     * @param countrycode 代码
+     */
+    public void setCountrycode(String countrycode) {
+        this.countrycode = countrycode;
+    }
+
 }

@@ -22,15 +22,31 @@
  * THE SOFTWARE.
  */
 
-package com.yy.crm.mapper;
-
-
-import com.yy.crm.common.MyMapper;
-import com.yy.crm.entity.City;
+package com.yy.crm.entity;
 
 /**
  * @author liuzh_3nofxnp
- * @since 2016-01-22 22:17
+ * @since 2016-01-22 22:16
  */
-public interface CityMapper extends MyMapper<City> {
+public class City extends BaseEntity {
+    private String name;
+
+    private String state;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
 }

@@ -25,6 +25,9 @@
 package com.yy.crm.mapper;
 
 
-public interface CountryMapper {
+import com.yy.crm.common.MyMapper;
+import com.yy.crm.entity.Country;
+
+public interface CountryMapper extends MyMapper<Country> {
 
 }
