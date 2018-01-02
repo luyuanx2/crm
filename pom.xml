@@ -8,9 +8,18 @@
     <artifactId>crm</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    
     <modules>
         <module>crm-security</module>
+        <module>crm-manage</module>
+        <module>crm-util</module>
+        <module>crm-service</module>
     </modules>
+
+    <properties>
+        <crm.version>1.0-SNAPSHOT</crm.version>
+        <java.version>1.8</java.version>
+    </properties>
 
     <!--管理依赖版本兼容-->
     <dependencyManagement>
@@ -31,6 +40,14 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
