@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.social.security.SpringSocialConfigurer;
 
+
 /**
  * 资源服务器
  * Created by 鲁源源 on 2017/11/6.
@@ -64,7 +65,7 @@ public class MyResourceServerConfig extends ResourceServerConfigurerAdapter {
                         SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
                         SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
                         SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
-                        "/user/regist","/social/signUp"
+                        "/user/regist","/social/signUp","/druid/*"
                 )
                 .permitAll()
                 .anyRequest()

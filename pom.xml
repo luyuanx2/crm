@@ -14,12 +14,13 @@
         <module>crm-manage</module>
         <module>crm-util</module>
         <module>crm-service</module>
-        <module>crm-manage</module>
     </modules>
 
     <properties>
         <crm.version>1.0-SNAPSHOT</crm.version>
         <java.version>1.8</java.version>
+        <spring-boot.version>1.5.6.RELEASE</spring-boot.version>
+        <flyway.version>4.0.3</flyway.version>
     </properties>
 
     <!--管理依赖版本兼容-->
@@ -36,6 +37,14 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>Dalston.SR4</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
