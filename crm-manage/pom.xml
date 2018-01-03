@@ -77,7 +77,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-               <!-- <dependencies>
+                <!--<dependencies>
                     &lt;!&ndash; spring热部署&ndash;&gt;
                     <dependency>
                         <groupId>org.springframework</groupId>
