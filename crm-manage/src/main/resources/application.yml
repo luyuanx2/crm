@@ -9,6 +9,9 @@ spring:
         date-format: yyyy-MM-dd HH:mm:ss
         time-zone: GMT+8
         default-property-inclusion: non_null
+    redis:
+      host: 192.168.202.5
+      port: 6379
     profiles:
         active: dev
 server:
@@ -36,6 +39,7 @@ yy:
         provoderId: weixin
       filterProcessesUrl: /qqLogin
     oauth2:
+      #storeType: redis
       clients[0]:
         clientId: lyy
         clientSecret: lyysecret
