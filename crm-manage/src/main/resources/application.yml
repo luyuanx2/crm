@@ -1,0 +1,51 @@
+debug: true
+logging:
+    level:
+        com.yy.crm: DEBUG
+spring:
+    application:
+        name: crm-manage
+    jackson:
+        date-format: yyyy-MM-dd HH:mm:ss
+        time-zone: GMT+8
+        default-property-inclusion: non_null
+    profiles:
+        active: dev
+server:
+    port: 8080
+
+swagger:
+    basepackage: com.yy.crm
+    service:
+        name: crm-manage
+        description: crm-manage 后端服务
+        developer: luyuanx2
+security:
+    basic:
+        enabled: false
+yy:
+  security:
+    social:
+      qq:
+        app-id: 1106432571
+        app-secret: xL2DDQ1RLkvUfbpc
+        provoderId: qq
+      weixin:
+        app-id: wxd99431bbff8305a0
+        app-secret: 60f78681d063590a469f1b297feff3c4
+        provoderId: weixin
+      filterProcessesUrl: /qqLogin
+    oauth2:
+      clients[0]:
+        clientId: lyy
+        clientSecret: lyysecret
+        accessTokenValiditySeconds: 7200
+      clients[1]:
+        clientId: lyy1
+        clientSecret: lyysecret1
+        accessTokenValiditySeconds: 7200
+      jwtSigningKey: lyy
+flyway:
+  baseline-on-migrate: true
+#flyway.locations=db/migration/{vendor}
+
