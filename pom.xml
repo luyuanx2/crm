@@ -21,6 +21,10 @@
         <java.version>1.8</java.version>
         <spring-boot.version>1.5.6.RELEASE</spring-boot.version>
         <flyway.version>4.0.3</flyway.version>
+        <mapper.version>3.4.0</mapper.version>
+        <mybatis.version>3.3.1</mybatis.version>
+        <mybatis.spring.version>1.2.4</mybatis.spring.version>
+        <pagehelper.version>4.1.1</pagehelper.version>
     </properties>
 
     <!--管理依赖版本兼容-->

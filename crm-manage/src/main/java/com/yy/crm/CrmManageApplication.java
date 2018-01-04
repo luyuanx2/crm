@@ -1,6 +1,5 @@
 package com.yy.crm;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
@@ -14,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @RestController
 @EnableTransactionManagement
-@MapperScan(basePackages = "com.yy.crm.mapper")
-@ServletComponentScan
+//@MapperScan(basePackages = "com.yy.crm.service.mapper")
+@ServletComponentScan("com.yy.crm.manage.config.druid")
 public class CrmManageApplication {
     public static void main(String[] args) {
         SpringApplication.run(CrmManageApplication.class,args);

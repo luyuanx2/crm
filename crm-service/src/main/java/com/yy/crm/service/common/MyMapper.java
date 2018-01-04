@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.yy.crm.common;
+package com.yy.crm.service.common;
 
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.common.MySqlMapper;
