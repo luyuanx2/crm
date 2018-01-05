@@ -34,11 +34,11 @@
             <artifactId>mybatis-spring</artifactId>
             <version>${mybatis.spring.version}</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.mybatis</groupId>-->
-            <!--<artifactId>mybatis-typehandlers-jsr310</artifactId>-->
-            <!--<version>1.0.2</version>-->
-        <!--</dependency>-->
+       <!-- <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-typehandlers-jsr310</artifactId>
+            <version>1.0.2</version>
+        </dependency>-->
 
         <!-- Mybatis Generator -->
         <dependency>
