@@ -34,6 +34,11 @@
             <artifactId>mybatis-spring</artifactId>
             <version>${mybatis.spring.version}</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.mybatis</groupId>-->
+            <!--<artifactId>mybatis-typehandlers-jsr310</artifactId>-->
+            <!--<version>1.0.2</version>-->
+        <!--</dependency>-->
 
         <!-- Mybatis Generator -->
         <dependency>
@@ -85,6 +90,10 @@
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.yy.crm</groupId>
             <artifactId>crm-util</artifactId>
             <version>${crm.version}</version>
@@ -116,6 +125,17 @@
                         <version>${mapper.version}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>${flyway.version}</version>
+                <configuration>
+                    <driver>com.mysql.jdbc.Driver</driver>
+                    <url>jdbc:mysql://localhost/crm?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true</url>
+                    <user>root</user>
+                    <password>root</password>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -4,7 +4,7 @@ logging:
 spring:
     datasource:
         name: develop
-        url: jdbc:mysql://localhost:3306/crm?useUnicode=true&characterEncoding=UTF8
+        url: jdbc:mysql://localhost:3306/crm?useUnicode=true&characterEncoding=UTF8&autoReconnect=true
         username: root
         password: root
         # 使用druid数据源
@@ -24,9 +24,12 @@ spring:
         poolPreparedStatements: true
         maxOpenPreparedStatements: 20
 mybatis:
-    basepackage: com.yy.crm.service.mapper
     xmlLocation: classpath:mapper/**/*.xml
+    type-aliases-package: com.yy.crm.service.model
 
 mapper:
+    basepackage: com.yy.crm.service.mapper
     mappers: com.yy.crm.service.common.MyMapper
+flyway:
+  baseline-on-migrate: true
 

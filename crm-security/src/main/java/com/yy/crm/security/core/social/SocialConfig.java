@@ -42,7 +42,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
         //connectionFactoryLocator用来判断获取拿qq还是微信的ConnectionFactory
         JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors.noOpText());
         //设置表的前缀
-        repository.setTablePrefix("");
+        repository.setTablePrefix(securityProperties.getSocial().getTablePrefix());
         if(connectionSignUp != null){
             repository.setConnectionSignUp(connectionSignUp);
         }

@@ -11,6 +11,8 @@ public class SocialProperties {
 
     private WeixinProperties weixin = new WeixinProperties();
 
+    private String tablePrefix = "";
+
     public QQProperties getQq() {
         return qq;
     }
@@ -33,5 +35,13 @@ public class SocialProperties {
 
     public void setWeixin(WeixinProperties weixin) {
         this.weixin = weixin;
+    }
+
+    public String getTablePrefix() {
+        return tablePrefix;
+    }
+
+    public void setTablePrefix(String tablePrefix) {
+        this.tablePrefix = tablePrefix;
     }
 }

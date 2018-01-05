@@ -27,24 +27,38 @@
         <javaClientGenerator targetPackage="${targetMapperPackage}" targetProject="${targetJavaProject}"
                              type="XMLMAPPER"/>
 
-        <table tableName="message" domainObjectName="Message" >
-        <generatedKey column="id" identity="true" sqlStatement="myql"/>
+        <table tableName="sys_dept" domainObjectName="SysDept" >
+            <generatedKey column="id" identity="true" sqlStatement="myql"/>
+            <columnOverride column="operate_time" javaType="java.time.LocalDateTime" />
         </table>
-        <!--<table tableName="base_menu" domainObjectName="Menu" >
-        <generatedKey column="id" identity="false" sqlStatement="myql"/>
+        <table tableName="sys_user" domainObjectName="SysUser" >
+            <generatedKey column="id" identity="true" sqlStatement="myql"/>
+            <columnOverride column="operate_time" javaType="java.time.LocalDateTime" />
         </table>
-        <table tableName="base_group" domainObjectName="Group" >
-            &lt;!&ndash;<generatedKey column="id" identity="true"/>&ndash;&gt;
+        <table tableName="sys_acl" domainObjectName="SysAcl" >
+            <generatedKey column="id" identity="true" sqlStatement="myql"/>
+            <columnOverride column="operate_time" javaType="java.time.LocalDateTime" />
         </table>
-        <table tableName="base_group_type" domainObjectName="GroupType" >
+        <table tableName="sys_acl_module" domainObjectName="SysAclModule" >
+            <generatedKey column="id" identity="true" sqlStatement="myql"/>
+            <columnOverride column="operate_time" javaType="java.time.LocalDateTime" />
         </table>
-        <table tableName="base_resource_authority" domainObjectName="ResourceAuthority" >
+        <table tableName="sys_role" domainObjectName="SysRole" >
+            <generatedKey column="id" identity="true" sqlStatement="myql"/>
+            <columnOverride column="operate_time" javaType="java.time.LocalDateTime" />
         </table>
-        <table tableName="base_element" domainObjectName="Element">
+        <table tableName="sys_role_acl" domainObjectName="SysRoleAcl" >
+            <generatedKey column="id" identity="true" sqlStatement="myql"/>
+            <columnOverride column="operate_time" javaType="java.time.LocalDateTime" />
         </table>
-        <table tableName="gate_client" domainObjectName="GateClient">
+        <table tableName="sys_role_user" domainObjectName="SysRoleUser" >
+            <generatedKey column="id" identity="true" sqlStatement="myql"/>
+            <columnOverride column="operate_time" javaType="java.time.LocalDateTime" />
         </table>
-        <table tableName="gate_client_service" domainObjectName="ClientService">
-        </table>-->
+        <table tableName="sys_log" domainObjectName="SysLog" >
+            <generatedKey column="id" identity="true" sqlStatement="myql"/>
+            <columnOverride column="operate_time" javaType="java.time.LocalDateTime" />
+        </table>
+
     </context>
 </generatorConfiguration>
