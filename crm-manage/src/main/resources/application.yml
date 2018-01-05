@@ -1,6 +1,7 @@
 debug: true
 logging:
     level:
+        root: INFO
         com.yy.crm: DEBUG
 spring:
     application:
