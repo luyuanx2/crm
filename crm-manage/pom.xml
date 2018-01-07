@@ -34,6 +34,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
+            <!--<scope>true</scope>-->
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -98,14 +99,18 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <!--<dependencies>
-                    &lt;!&ndash; spring热部署&ndash;&gt;
-                    <dependency>
+                <configuration>
+                    <!--没有fork配置，devtools不起作用，不用restart-->
+                    <fork>true</fork>
+                </configuration>
+                <dependencies>
+                    <!-- spring热部署-->
+                    <!--<dependency>
                         <groupId>org.springframework</groupId>
                         <artifactId>springloaded</artifactId>
-                        <version>1.2.6.RELEASE</version>
-                    </dependency>
-                </dependencies>-->
+                        <version>1.2.4.RELEASE</version>
+                    </dependency>-->
+                </dependencies>
                 <executions>
                     <execution>
                         <goals>
