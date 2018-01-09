@@ -12,8 +12,8 @@
     <modules>
         <module>crm-security</module>
         <module>crm-manage</module>
-        <module>crm-util</module>
         <module>crm-service</module>
+        <module>crm-utils</module>
     </modules>
 
     <properties>

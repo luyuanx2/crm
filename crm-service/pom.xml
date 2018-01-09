@@ -95,7 +95,7 @@
         </dependency>
         <dependency>
             <groupId>com.yy.crm</groupId>
-            <artifactId>crm-util</artifactId>
+            <artifactId>crm-utils</artifactId>
             <version>${crm.version}</version>
         </dependency>
     </dependencies>
