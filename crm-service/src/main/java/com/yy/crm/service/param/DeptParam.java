@@ -1,4 +1,4 @@
-package com.yy.crm.manage.param;
+package com.yy.crm.service.param;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -32,7 +32,7 @@ public class DeptParam {
     /**
      * 上级部门id
      */
-    private Integer parentId;
+    private Integer parentId = 0;
 
     /**
      * 部门在当前层级下的顺序，由小到大

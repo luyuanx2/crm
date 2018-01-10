@@ -1,8 +1,17 @@
 package com.yy.crm.service.model;
 
-import java.time.LocalDateTime;
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Table(name = "sys_dept")
 public class SysDept {
     /**

@@ -34,11 +34,11 @@
             <artifactId>mybatis-spring</artifactId>
             <version>${mybatis.spring.version}</version>
         </dependency>
-       <!-- <dependency>
+       <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-typehandlers-jsr310</artifactId>
             <version>1.0.2</version>
-        </dependency>-->
+        </dependency>
 
         <!-- Mybatis Generator -->
         <dependency>
@@ -95,7 +95,7 @@
         </dependency>
         <dependency>
             <groupId>com.yy.crm</groupId>
-            <artifactId>crm-utils</artifactId>
+            <artifactId>crm-security</artifactId>
             <version>${crm.version}</version>
         </dependency>
     </dependencies>
@@ -132,9 +132,9 @@
                 <version>${flyway.version}</version>
                 <configuration>
                     <driver>com.mysql.jdbc.Driver</driver>
-                    <url>jdbc:mysql://localhost/crm?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true</url>
-                    <user>root</user>
-                    <password>root</password>
+                    <url>jdbc:mysql://192.168.202.5/crm?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true</url>
+                    <user>yy</user>
+                    <password>yy</password>
                 </configuration>
             </plugin>
         </plugins>

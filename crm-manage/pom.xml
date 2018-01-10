@@ -18,11 +18,6 @@
             <version>${crm.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.yy.crm</groupId>
-            <artifactId>crm-security</artifactId>
-            <version>${crm.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
@@ -30,12 +25,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
-            <!--<scope>true</scope>-->
-        </dependency>
+            &lt;!&ndash;<scope>true</scope>&ndash;&gt;
+        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>

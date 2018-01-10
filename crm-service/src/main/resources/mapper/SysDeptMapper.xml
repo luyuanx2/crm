@@ -15,4 +15,19 @@
     <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
     <result column="operate_ip" property="operateIp" jdbcType="VARCHAR" />
   </resultMap>
+
+  <select id="countByNameAndParentId" parameterType="map" resultType="int">
+    select
+    COUNT(1)
+    from sys_dept
+    where name = #{name}
+
+    <if test="parentId != null">
+      AND parent_id = #{parentId}
+    </if>
+
+    <if test="id != null">
+      AND id != #{id}
+    </if>
+  </select>
 </mapper>
