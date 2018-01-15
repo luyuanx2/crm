@@ -16,6 +16,10 @@
     <result column="operate_ip" property="operateIp" jdbcType="VARCHAR" />
   </resultMap>
 
+  <sql id="Base_Column_List" >
+    id, name, parent_id, level, seq, remark, operator, operate_time, operate_ip
+  </sql>
+
   <select id="countByNameAndParentId" parameterType="map" resultType="int">
     select
     COUNT(1)
@@ -30,4 +34,19 @@
       AND id != #{id}
     </if>
   </select>
+
+  <select id="getChildDeptListByLevel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_dept
+    where level like #{level} || '.%'
+  </select>
+
+  <update id="batchUpdateLevel" parameterType="map">
+    <foreach collection="sysDeptList" item="sysDept" separator=";">
+      UPDATE sys_dept
+      SET level = #{sysDept.level}
+      where id = #{sysDept.id}
+    </foreach>
+  </update>
 </mapper>

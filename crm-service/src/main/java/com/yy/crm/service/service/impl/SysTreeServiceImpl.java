@@ -49,7 +49,7 @@ public class SysTreeServiceImpl implements SysTreeService {
         });
 
         //按照seq排序,升序
-        rootList.sort(Comparator.comparingInt(SysDept::getSeq));
+        rootList.sort(Comparator.comparingInt(DeptLevelDto::getSeq));
         //递归生成树
         transformDeptTree(rootList,LevelUtil.ROOT,levelDeptMap);
         return rootList;

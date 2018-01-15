@@ -8,41 +8,41 @@ import java.io.Serializable;
 //@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class ServerResponse<T> implements Serializable{
 
-    private int status;
-    private String msg;
+    private int code;
+    private String message;
     private T data;
 
-    public ServerResponse(int status) {
-        this.status = status;
+    public ServerResponse(int code) {
+        this.code = code;
     }
 
-    public ServerResponse(int status, String msg) {
-        this.status = status;
-        this.msg = msg;
+    public ServerResponse(int code, String message) {
+        this.code = code;
+        this.message = message;
     }
 
-    public ServerResponse(int status, String msg, T data) {
-        this.status = status;
-        this.msg = msg;
+    public ServerResponse(int code, String message, T data) {
+        this.code = code;
+        this.message = message;
         this.data = data;
     }
 
-    public ServerResponse(int status, T data) {
-        this.status = status;
+    public ServerResponse(int code, T data) {
+        this.code = code;
         this.data = data;
     }
 
     //@JsonIgnore
     public boolean isSuccess(){
-        return this.status == ResponseCode.SUCCESS.getCode();
+        return this.code == ResponseCode.SUCCESS.getCode();
     }
 
     public int getStatus() {
-        return status;
+        return code;
     }
 
     public String getMsg() {
-        return msg;
+        return message;
     }
 
     public T getData() {
@@ -53,16 +53,16 @@ public class ServerResponse<T> implements Serializable{
         return new ServerResponse<>(ResponseCode.SUCCESS.getCode());
     }
 
-    public static <T> ServerResponse<T> createBySuccessMessage(String msg){
-        return new ServerResponse<>(ResponseCode.SUCCESS.getCode(),msg);
+    public static <T> ServerResponse<T> createBySuccessMessage(String message){
+        return new ServerResponse<>(ResponseCode.SUCCESS.getCode(),message);
     }
 
     public static <T> ServerResponse<T> createBySuccess(T data){
         return new ServerResponse<>(ResponseCode.SUCCESS.getCode(),data);
     }
 
-    public static <T> ServerResponse<T> createBySuccess(String msg,T data){
-        return new ServerResponse<>(ResponseCode.SUCCESS.getCode(),msg,data);
+    public static <T> ServerResponse<T> createBySuccess(String message,T data){
+        return new ServerResponse<>(ResponseCode.SUCCESS.getCode(),message,data);
     }
 
 

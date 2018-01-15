@@ -8,4 +8,6 @@ import com.yy.crm.service.param.DeptParam;
 public interface SysDeptService{
 
     void saveDept(DeptParam deptParam);
+
+    void update(DeptParam param);
 }
