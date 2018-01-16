@@ -46,6 +46,7 @@ public class DeptLevelDto {
      */
     private String remark;
 
+    @JsonProperty("children")
     private List<DeptLevelDto> deptList = Lists.newArrayList();
 
     public static DeptLevelDto adapt(SysDept dept){

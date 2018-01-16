@@ -1,5 +1,6 @@
 package com.yy.crm.manage.controller;
 
+import com.yy.crm.common.response.ServerResponse;
 import com.yy.crm.manage.dto.User;
 import com.yy.crm.security.app.social.AppSignUpUtils;
 import com.yy.crm.security.core.properties.SecurityProperties;
@@ -18,6 +19,10 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by luyuanyuan on 2017/10/19.
@@ -47,9 +52,9 @@ public class UserController {
 
 
 
-    @GetMapping("/me")
+    @GetMapping("/info")
     //public Object getCurrentUser(@AuthenticationPrincipal UserDetails user){
-    public Object getCurrentUser(Authentication user, HttpServletRequest request) throws UnsupportedEncodingException {
+    public ServerResponse getCurrentUser(Authentication user, HttpServletRequest request) throws UnsupportedEncodingException {
         String header = request.getHeader("Authorization");
         String token = StringUtils.substringAfter(header, "bearer ");
         Claims claims = Jwts.parser().setSigningKey(securityProperties.getOauth2()
@@ -58,7 +63,15 @@ public class UserController {
 
         String company = (String) claims.get("company");
         System.out.println("--------"+company);
-        return user;
+        Map<String,Object> map = new HashMap<>();
+        List<String> list = new ArrayList<>();
+        list.add("admin");
+        map.put("role",list);
+        map.put("name","路远林");
+        map.put("avatar","头像");
+        map.put("introduction","介绍");
+
+        return ServerResponse.createBySuccess(map);
     }
 
 

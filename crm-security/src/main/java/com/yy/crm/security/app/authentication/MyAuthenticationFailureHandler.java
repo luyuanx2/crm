@@ -1,6 +1,7 @@
 package com.yy.crm.security.app.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yy.crm.common.response.ServerResponse;
 import com.yy.crm.security.core.properties.LoginResponseType;
 import com.yy.crm.security.core.properties.SecurityProperties;
 import org.slf4j.Logger;
@@ -38,7 +39,7 @@ public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailu
         if (LoginResponseType.JSON.equals(securityProperties.getBrowser().getLoginType())) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setContentType("application/json;charset=UTF-8");
-            //response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
+            response.getWriter().write(objectMapper.writeValueAsString(ServerResponse.createByErrorMessage(exception.getMessage())));
         } else {
             super.onAuthenticationFailure(request, response, exception);
         }

@@ -17,6 +17,7 @@ spring:
         active: dev
 server:
     port: 8080
+    context-path: /manage
 
 swagger:
     basepackage: com.yy.crm

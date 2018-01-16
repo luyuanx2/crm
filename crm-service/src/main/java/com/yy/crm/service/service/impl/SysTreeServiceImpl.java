@@ -62,7 +62,7 @@ public class SysTreeServiceImpl implements SysTreeService {
             String nextLevel = LevelUtil.calculateLevel(level, dto.getId());
             //处理下一层
             List<DeptLevelDto> tempDeptList = (List<DeptLevelDto>) levelDeptMap.get(nextLevel);
-            if(CollectionUtils.isEmpty(tempDeptList)){
+            if(!CollectionUtils.isEmpty(tempDeptList)){
                 //排序
                 tempDeptList.sort(Comparator.comparingInt(DeptLevelDto::getSeq));
                 //设置下一层部门

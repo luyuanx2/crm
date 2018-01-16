@@ -1,6 +1,7 @@
 package com.yy.crm.security.app.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yy.crm.common.response.ServerResponse;
 import com.yy.crm.security.core.properties.SecurityProperties;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
@@ -50,7 +51,6 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
             throw new UnapprovedClientAuthenticationException("请求头中无client信息");
         }
 
-
         String[] tokens = extractAndDecodeHeader(header, request);
         assert tokens.length == 2;
         String clientId = tokens[0];
@@ -72,8 +72,7 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
         OAuth2AccessToken token = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
 
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(objectMapper.writeValueAsString(token));
-
+        response.getWriter().write(objectMapper.writeValueAsString(ServerResponse.createBySuccess(token)));
 
     }
 

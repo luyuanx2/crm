@@ -37,11 +37,11 @@ public class ServerResponse<T> implements Serializable{
         return this.code == ResponseCode.SUCCESS.getCode();
     }
 
-    public int getStatus() {
+    public int getCode() {
         return code;
     }
 
-    public String getMsg() {
+    public String getMessage() {
         return message;
     }
 
