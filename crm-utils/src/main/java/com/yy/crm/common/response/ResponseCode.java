@@ -17,7 +17,7 @@ public enum ResponseCode implements CommonEnum{
     private final Integer code;
     private final String message;
 
-    ResponseCode(int code, String message) {
+    ResponseCode(Integer code, String message) {
         this.code = code;
         this.message = message;
     }

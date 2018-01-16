@@ -49,4 +49,10 @@
       where id = #{sysDept.id}
     </foreach>
   </update>
+
+  <select id="countByParentId" parameterType="int" resultType="int">
+    SELECT count(1)
+    FROM sys_dept
+    WHERE parent_id = #{deptId}
+  </select>
 </mapper>

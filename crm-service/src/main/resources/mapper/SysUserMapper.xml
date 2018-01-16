@@ -17,4 +17,10 @@
     <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
     <result column="operate_ip" property="operateIp" jdbcType="VARCHAR" />
   </resultMap>
+
+  <select id="countByDeptId" parameterType="int" resultType="int">
+    SELECT count(1)
+    FROM sys_user
+    WHERE dept_id = #{deptId}
+  </select>
 </mapper>

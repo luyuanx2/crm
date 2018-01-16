@@ -7,10 +7,7 @@ import com.yy.crm.service.service.SysDeptService;
 import com.yy.crm.service.service.SysTreeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,8 +31,8 @@ public class SysDeptController {
      */
     @PostMapping("/addDept")
     private ServerResponse addDept(DeptParam param){
-        sysDeptService.saveDept(param);
-        return ServerResponse.createBySuccess();
+        Integer deptId = sysDeptService.saveDept(param);
+        return ServerResponse.createBySuccess(deptId);
     }
 
     /**
@@ -48,9 +45,20 @@ public class SysDeptController {
         return ServerResponse.createBySuccess(dtoList);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ServerResponse updateDept(DeptParam param) {
         sysDeptService.update(param);
+        return ServerResponse.createBySuccess();
+    }
+
+    /**
+     * 删除部门
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/delete")
+    public ServerResponse delete(@RequestParam("id") int id) {
+        sysDeptService.delete(id);
         return ServerResponse.createBySuccess();
     }
 }

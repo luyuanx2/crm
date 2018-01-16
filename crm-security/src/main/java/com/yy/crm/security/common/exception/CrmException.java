@@ -4,24 +4,20 @@ import com.yy.crm.common.response.CommonEnum;
 import lombok.Getter;
 
 /**
- * 参数校验异常
+ * 项目自定义异常
+ * @author 鲁源源 on 2018/1/16.
  */
 @Getter
-public class ParamException extends RuntimeException {
+public class CrmException extends RuntimeException{
     private Integer code;
 
-    public ParamException(CommonEnum commonEnum) {
+    public CrmException(CommonEnum commonEnum) {
         super(commonEnum.getMessage());
         this.code = commonEnum.getCode();
     }
 
-    public ParamException(Integer code, String message) {
+    public CrmException(Integer code, String message) {
         super(message);
         this.code = code;
     }
-    public ParamException(String message) {
-        super(message);
-        this.code = 5000;
-    }
-
 }
