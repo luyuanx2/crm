@@ -1,16 +1,18 @@
 package com.yy.crm.service.service.impl;
 
 import com.google.common.base.Preconditions;
-import com.yy.crm.common.response.LevelUtil;
 import com.yy.crm.common.response.PermissionCode;
 import com.yy.crm.security.common.exception.ParamException;
 import com.yy.crm.security.common.util.BeanValidator;
+import com.yy.crm.service.common.RequestHolder;
 import com.yy.crm.service.mapper.SysDeptMapper;
 import com.yy.crm.service.mapper.SysUserMapper;
 import com.yy.crm.service.model.SysDept;
 import com.yy.crm.service.param.DeptParam;
 import com.yy.crm.service.service.SysDeptService;
 import com.yy.crm.service.service.base.BaseService;
+import com.yy.crm.utils.IpUtil;
+import com.yy.crm.utils.LevelUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,11 +45,11 @@ public class SysDeptServiceImpl extends BaseService<SysDept> implements SysDeptS
                 .seq(param.getSeq())
                 .remark(param.getRemark()).build();
         sysDept.setLevel(LevelUtil.calculateLevel(getLevel(param.getParentId()),param.getParentId()));
-        //todo 操作人
-        sysDept.setOperator("system");
-        sysDept.setOperateIp("127.0.0.1");
+        sysDept.setOperator(RequestHolder.getCurrentUser().getUsername());
+        sysDept.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysDept.setOperateTime(LocalDateTime.now());
         this.saveSelective(sysDept);
+        //sysLogService.saveDeptLog(null, dept);
         return sysDept.getId();
     }
 
@@ -66,12 +68,11 @@ public class SysDeptServiceImpl extends BaseService<SysDept> implements SysDeptS
                 .seq(param.getSeq())
                 .remark(param.getRemark()).build();
         after.setLevel(LevelUtil.calculateLevel(getLevel(param.getParentId()),param.getParentId()));
-
-        //todo 操作人
-        after.setOperator("system");
-        after.setOperateIp("127.0.0.1");
+        after.setOperator(RequestHolder.getCurrentUser().getUsername());
+        after.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         after.setOperateTime(LocalDateTime.now());
         updateWithChild(before,after);
+        //sysLogService.saveDeptLog(before, after);
     }
 
     @Override

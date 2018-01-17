@@ -23,4 +23,22 @@
     FROM sys_user
     WHERE dept_id = #{deptId}
   </select>
+
+  <select id="countByMail" parameterType="map" resultType="int">
+    SELECT count(1)
+    FROM sys_user
+    WHERE mail = #{mail}
+    <if test="id != null">
+      AND id != #{id}
+    </if>
+  </select>
+
+  <select id="countByTelephone" parameterType="map" resultType="int">
+    SELECT count(1)
+    FROM sys_user
+    WHERE telephone = #{telephone}
+    <if test="id != null">
+      AND id != #{id}
+    </if>
+  </select>
 </mapper>

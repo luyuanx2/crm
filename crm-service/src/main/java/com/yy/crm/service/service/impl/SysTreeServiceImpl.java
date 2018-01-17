@@ -3,7 +3,7 @@ package com.yy.crm.service.service.impl;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import com.yy.crm.common.response.LevelUtil;
+import com.yy.crm.utils.LevelUtil;
 import com.yy.crm.service.dto.DeptLevelDto;
 import com.yy.crm.service.mapper.SysDeptMapper;
 import com.yy.crm.service.model.SysDept;

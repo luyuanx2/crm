@@ -1,4 +1,4 @@
-package com.yy.crm.common.response;
+package com.yy.crm.utils;
 
 import java.util.Random;
 
