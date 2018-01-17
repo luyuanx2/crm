@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
+ * 部门
  * @author 鲁源源 on 2018/1/9.
  */
 @RestController
@@ -31,7 +32,7 @@ public class SysDeptController {
      */
     @PostMapping("/addDept")
     private ServerResponse addDept(DeptParam param){
-        Integer deptId = sysDeptService.saveDept(param);
+        Integer deptId = sysDeptService.save(param);
         return ServerResponse.createBySuccess(deptId);
     }
 

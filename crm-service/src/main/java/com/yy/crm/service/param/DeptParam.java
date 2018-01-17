@@ -43,6 +43,6 @@ public class DeptParam {
     /**
      * 备注
      */
-    @Length(max = 150, message = "备注长度不能超过150个字")
+    @Length(max = 200, message = "备注长度不能超过200个字")
     private String remark;
 }

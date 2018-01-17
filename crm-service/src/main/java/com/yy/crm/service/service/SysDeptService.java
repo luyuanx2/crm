@@ -7,7 +7,7 @@ import com.yy.crm.service.param.DeptParam;
  */
 public interface SysDeptService{
 
-    Integer saveDept(DeptParam deptParam);
+    Integer save(DeptParam deptParam);
 
     void update(DeptParam param);
 

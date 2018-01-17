@@ -31,7 +31,7 @@ public class SysDeptServiceImpl extends BaseService<SysDept> implements SysDeptS
     private SysUserMapper sysUserMapper;
 
     @Override
-    public Integer saveDept(DeptParam param) {
+    public Integer save(DeptParam param) {
         BeanValidator.check(param);
         //不能有部门名称相同
         boolean flag = checkExist(param.getParentId(),param.getName(),param.getId());
@@ -47,7 +47,7 @@ public class SysDeptServiceImpl extends BaseService<SysDept> implements SysDeptS
         sysDept.setOperator("system");
         sysDept.setOperateIp("127.0.0.1");
         sysDept.setOperateTime(LocalDateTime.now());
-        mapper.insertSelective(sysDept);
+        this.saveSelective(sysDept);
         return sysDept.getId();
     }
 
@@ -59,7 +59,7 @@ public class SysDeptServiceImpl extends BaseService<SysDept> implements SysDeptS
             throw new ParamException(PermissionCode.DEPT_ALREADY_EXIST);
         }
         //判断原来的部门是否存在
-        SysDept before = sysDeptMapper.selectByPrimaryKey(param.getId());
+        SysDept before = this.queryById(param.getId());
         Preconditions.checkNotNull(before,"待更新的部门不存在");
         SysDept after = SysDept.builder().id(param.getId()).name(param.getName())
                 .parentId(param.getParentId())
@@ -76,7 +76,7 @@ public class SysDeptServiceImpl extends BaseService<SysDept> implements SysDeptS
 
     @Override
     public void delete(int deptId) {
-        SysDept dept = sysDeptMapper.selectByPrimaryKey(deptId);
+        SysDept dept = this.queryById(deptId);
         Preconditions.checkNotNull(dept, "待删除的部门不存在，无法删除");
         if (sysDeptMapper.countByParentId(dept.getId()) > 0) {
             throw new ParamException(PermissionCode.EXIST_CHILDREN_DEPT);
@@ -117,7 +117,7 @@ public class SysDeptServiceImpl extends BaseService<SysDept> implements SysDeptS
     }
 
     private String getLevel(Integer deptId){
-        SysDept dept = mapper.selectByPrimaryKey(deptId);
+        SysDept dept = this.queryById(deptId);
         if(dept == null){
             return null;
         }
