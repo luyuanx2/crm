@@ -2,6 +2,7 @@ package com.yy.crm.service.service.impl;
 
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Preconditions;
+import com.yy.crm.common.response.PermissionCode;
 import com.yy.crm.security.common.exception.ParamException;
 import com.yy.crm.security.common.util.BeanValidator;
 import com.yy.crm.service.common.RequestHolder;
@@ -34,10 +35,10 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
     public void save(UserParam param) {
         BeanValidator.check(param);
         if (checkTelephoneExist(param.getTelephone(), param.getId())) {
-            throw new ParamException("电话已被占用");
+            throw new ParamException(PermissionCode.MOBILE_ALREADY_EXIST);
         }
         if (checkEmailExist(param.getMail(), param.getId())) {
-            throw new ParamException("邮箱已被占用");
+            throw new ParamException(PermissionCode.EMAIL_ALREADY_EXIST);
         }
         String password = YYUtil.randomPassword();
         //TODO:
@@ -59,10 +60,10 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
     public void update(UserParam param) {
         BeanValidator.check(param);
         if (checkTelephoneExist(param.getTelephone(), param.getId())) {
-            throw new ParamException("电话已被占用");
+            throw new ParamException(PermissionCode.MOBILE_ALREADY_EXIST);
         }
         if (checkEmailExist(param.getMail(), param.getId())) {
-            throw new ParamException("邮箱已被占用");
+            throw new ParamException(PermissionCode.EMAIL_ALREADY_EXIST);
         }
         SysUser before = sysUserMapper.selectByPrimaryKey(param.getId());
         Preconditions.checkNotNull(before, "待更新的用户不存在");
