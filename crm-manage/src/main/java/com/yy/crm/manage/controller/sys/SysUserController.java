@@ -49,9 +49,9 @@ public class SysUserController {
         return ServerResponse.createBySuccess();
     }
 
-    @GetMapping("/page.json")
+    @GetMapping("/list")
     @ResponseBody
-    public ServerResponse page(@RequestParam("deptId") int deptId, PageQuery pageQuery) {
+    public ServerResponse list(@RequestParam("deptId") int deptId, PageQuery pageQuery) {
         PageInfo<SysUserDto> result = sysUserService.getPageByDeptId(deptId, pageQuery);
         return ServerResponse.createBySuccess(result);
     }
