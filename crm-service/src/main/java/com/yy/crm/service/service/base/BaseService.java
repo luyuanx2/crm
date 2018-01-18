@@ -59,14 +59,14 @@ public abstract class BaseService<T> {
     /**
      * 分页查询
      *
-     * @param pageNum
+     * @param pageNo
      * @param pageSize
      * @param entity
      * @return
      */
-    public PageInfo<T> queryPageListByWhere(int pageNum, int pageSize, T entity) {
+    public PageInfo<T> queryPageListByWhere(int pageNo, int pageSize, T entity) {
         // 设置分页条件
-        PageHelper.startPage(pageNum, pageSize);
+        PageHelper.startPage(pageNo, pageSize);
         List<T> list = this.queryListByWhere(entity);
         return new PageInfo<>(list);
     }

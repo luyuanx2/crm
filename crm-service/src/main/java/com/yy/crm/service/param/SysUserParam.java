@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @Setter
-public class UserParam {
+public class SysUserParam {
     private Integer id;
 
     @NotBlank(message = "用户名不可以为空")

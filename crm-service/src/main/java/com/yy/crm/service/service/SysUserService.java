@@ -1,17 +1,17 @@
 package com.yy.crm.service.service;
 
 import com.github.pagehelper.PageInfo;
-import com.yy.crm.service.model.SysUser;
+import com.yy.crm.service.dto.SysUserDto;
 import com.yy.crm.service.param.PageQuery;
-import com.yy.crm.service.param.UserParam;
+import com.yy.crm.service.param.SysUserParam;
 
 /**
  * @author luyuanyuan on 2018/1/17.
  */
 public interface SysUserService {
-    void save(UserParam param);
+    void save(SysUserParam param);
 
-    void update(UserParam param);
+    void update(SysUserParam param);
 
-    PageInfo<SysUser> getPageByDeptId(int deptId, PageQuery pageQuery);
+    PageInfo<SysUserDto> getPageByDeptId(int deptId, PageQuery pageQuery);
 }

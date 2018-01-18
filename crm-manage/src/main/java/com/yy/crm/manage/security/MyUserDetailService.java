@@ -1,5 +1,7 @@
 package com.yy.crm.manage.security;
 
+import com.yy.crm.service.mapper.SysUserMapper;
+import com.yy.crm.service.model.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -21,6 +23,8 @@ public class MyUserDetailService implements UserDetailsService,SocialUserDetails
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private SysUserMapper sysUserMapper;
 
     /**
      * (non-Javadoc)
@@ -30,13 +34,13 @@ public class MyUserDetailService implements UserDetailsService,SocialUserDetails
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.info("表单登录用户名:" + username);
-        return buildUser(username);
+        SysUser sysUser = sysUserMapper.selectOne(SysUser.builder().username(username).build());
+        return sysUser;
     }
 
     @Override
     public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
-        log.info("设计登录用户Id:" + userId);
+        log.info("设置登录用户Id:" + userId);
         return buildUser(userId);
     }
 

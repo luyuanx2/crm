@@ -1,7 +1,6 @@
 package com.yy.crm.manage.controller;
 
 import com.yy.crm.common.response.ServerResponse;
-import com.yy.crm.manage.dto.User;
 import com.yy.crm.security.app.social.AppSignUpUtils;
 import com.yy.crm.security.core.properties.SecurityProperties;
 import io.jsonwebtoken.Claims;
@@ -41,9 +40,11 @@ public class UserController {
 
 
     @PostMapping("/regist")
-    public void regist(User user, HttpServletRequest request) {
+    public void regist(String username, String password, HttpServletRequest request) {
 
         //不管是注册用户还是绑定用户，都会拿到一个用户唯一标识。
+        //todo 如果是管理后台需要填写正确的用户名和密码进行绑定
+        
         String userId = RandomStringUtils.random(6);
         appSignUpUtils.doPostSignUp(new ServletWebRequest(request),userId);
     }

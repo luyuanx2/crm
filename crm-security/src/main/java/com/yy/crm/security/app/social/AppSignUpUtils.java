@@ -42,17 +42,14 @@ public class AppSignUpUtils {
         Connection<?> connection = connectionFactoryLocator.getConnectionFactory(connectionData.getProviderId())
                 .createConnection(connectionData);
         usersConnectionRepository.createConnectionRepository(userId).addConnection(connection);
-
         redisTemplate.delete(key);
     }
 
     private String getKey(WebRequest request) {
-
         String deviceId = request.getHeader("deviceId");
         if(StringUtils.isBlank(deviceId)){
             throw  new AppSecurityException("设备id参数不能为空");
         }
-
         return "yy:security:social.connect." + deviceId;
     }
 }

@@ -2,13 +2,19 @@ package com.yy.crm.manage.controller.sys;
 
 import com.github.pagehelper.PageInfo;
 import com.yy.crm.common.response.ServerResponse;
-import com.yy.crm.service.model.SysUser;
+import com.yy.crm.service.dto.SysUserDto;
 import com.yy.crm.service.param.PageQuery;
-import com.yy.crm.service.param.UserParam;
+import com.yy.crm.service.param.SysUserParam;
 import com.yy.crm.service.service.SysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 用户
@@ -27,7 +33,7 @@ public class SysUserController {
      * @return
      */
     @PostMapping("/addUser")
-    private ServerResponse addUser(UserParam param){
+    private ServerResponse addUser(SysUserParam param){
         sysUserService.save(param);
         return ServerResponse.createBySuccess();
     }
@@ -38,7 +44,7 @@ public class SysUserController {
      * @return
      */
     @PutMapping("/update")
-    public ServerResponse updateUser(UserParam param) {
+    public ServerResponse updateUser(SysUserParam param) {
         sysUserService.update(param);
         return ServerResponse.createBySuccess();
     }
@@ -46,7 +52,7 @@ public class SysUserController {
     @GetMapping("/page.json")
     @ResponseBody
     public ServerResponse page(@RequestParam("deptId") int deptId, PageQuery pageQuery) {
-        PageInfo<SysUser> result = sysUserService.getPageByDeptId(deptId, pageQuery);
+        PageInfo<SysUserDto> result = sysUserService.getPageByDeptId(deptId, pageQuery);
         return ServerResponse.createBySuccess(result);
     }
 
