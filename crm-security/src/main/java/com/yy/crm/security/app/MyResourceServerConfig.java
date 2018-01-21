@@ -68,7 +68,7 @@ public class MyResourceServerConfig extends ResourceServerConfigurerAdapter {
                         "/user/regist","/social/signUp","/druid/**","/v2/api-docs",
                         "/swagger-resources/configuration/ui", "/swagger-resources",
                         "/swagger-resources/configuration/security",
-                        "/swagger-ui.html"
+                        "/swagger-ui.html","/redirect"
                 )
                 .permitAll()
                 .anyRequest()

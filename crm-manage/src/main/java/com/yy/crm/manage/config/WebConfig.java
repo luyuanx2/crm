@@ -4,7 +4,6 @@ import com.yy.crm.manage.config.interceptor.HttpInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -14,7 +13,7 @@ import java.util.List;
 /**
  * Created by luyuanyuan on 2017/10/20.
  */
-@Configuration
+//@Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     private final HttpInterceptor httpInterceptor;
