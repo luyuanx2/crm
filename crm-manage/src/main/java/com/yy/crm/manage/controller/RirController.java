@@ -17,9 +17,14 @@ public class RirController {
     @RequestMapping("/redirect")
     public void redir(String redirect, String code, String state, HttpServletResponse response,
                       HttpServletRequest request, RedirectAttributes redirectAttributes) throws IOException {
-        response.setStatus(302);
-        //http://www.pinzhi365.com/manage/redirect?redirect=http://192.168.202.1:8999/login#/authredirect&code=011fTHn32qXz3M0XJBq32gtDn32fTHn3&state=
+//        response.setStatus(302);
+        String aaa = "window.opener.location.href = 'http://192.168.1.55:8999/login#code=" + code+"';";
 
-        response.sendRedirect("http://192.168.202.1:8999/login#/authredirect?code="+code);
+//        String bbb = "<script>"+aaa+"</script>";
+        String bbb = "<!doctype html>" +
+                "<html><body><script>"+aaa+"window.close();</script></body></html>";
+        response.setContentType("text/html;charset=utf-8");
+        response.getWriter().write(bbb);
+//        response.sendRedirect(redirect+"?code="+code);
     }
 }
