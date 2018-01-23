@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 public class CrmExceptionHandler {
 
-    @ExceptionHandler(value = {CrmException.class,ParamException.class})
+    @ExceptionHandler(value = {Exception.class,ParamException.class})
     @ResponseBody
     public ServerResponse handlerSellException(Exception e){
         if (e instanceof CrmException) {
@@ -22,6 +22,7 @@ public class CrmExceptionHandler {
         if (e instanceof ParamException) {
             return ServerResponse.createByErrorCodeMessage(((ParamException) e).getCode(), e.getMessage());
         }
-        return ServerResponse.createByError();
+
+        return ServerResponse.createByErrorMessage(e.getMessage());
     }
 }
