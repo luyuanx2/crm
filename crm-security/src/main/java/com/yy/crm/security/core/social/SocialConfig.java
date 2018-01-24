@@ -50,6 +50,19 @@ public class SocialConfig extends SocialConfigurerAdapter {
     }
 
     @Bean
+    public UsersConnectionRepository usersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
+
+        //connectionFactoryLocator用来判断获取拿qq还是微信的ConnectionFactory
+        JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors.noOpText());
+        //设置表的前缀
+        repository.setTablePrefix(securityProperties.getSocial().getTablePrefix());
+        if(connectionSignUp != null){
+            repository.setConnectionSignUp(connectionSignUp);
+        }
+        return repository;
+    }
+
+    @Bean
     public SpringSocialConfigurer mySocialSecurityConfig() {
         String filterProcessesUrl = securityProperties.getSocial().getFilterProcessesUrl();
         MySpringSocialConfigurer configurer = new MySpringSocialConfigurer(filterProcessesUrl);

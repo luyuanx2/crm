@@ -2,12 +2,18 @@ package com.yy.crm.manage.controller.sys;
 
 import com.github.pagehelper.PageInfo;
 import com.yy.crm.common.response.ServerResponse;
+import com.yy.crm.security.app.social.AppSignUpUtils;
+import com.yy.crm.security.common.util.Assert;
+import com.yy.crm.security.core.properties.SecurityProperties;
 import com.yy.crm.service.dto.SysUserDto;
+import com.yy.crm.service.model.SysUser;
 import com.yy.crm.service.param.PageQuery;
 import com.yy.crm.service.param.SysUserParam;
 import com.yy.crm.service.service.SysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.ServletWebRequest;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 用户
@@ -27,6 +36,27 @@ public class SysUserController {
 
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private ProviderSignInUtils providerSignInUtils;
+    @Autowired
+    private SecurityProperties securityProperties;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private AppSignUpUtils appSignUpUtils;
+
+    @PostMapping("/regist")
+    public ServerResponse regist(String username, String password, HttpServletRequest request) {
+        Assert.isBlank(username,"用户名不能为空");
+        Assert.isBlank(password,"密码不能为空");
+        //不管是注册用户还是绑定用户，都会拿到一个用户唯一标识
+        SysUser sysUser = sysUserService.findByUsername(username);
+        if(sysUser == null || !passwordEncoder.matches(password,sysUser.getPassword())) {
+            return ServerResponse.createByErrorMessage("用户名或密码错误");
+        }
+        appSignUpUtils.doPostSignUp(new ServletWebRequest(request), String.valueOf(sysUser.getId()));
+        return ServerResponse.createBySuccessMessage("绑定成功,请重新扫码登录");
+    }
     /**
      * 添加用户
      * @param param

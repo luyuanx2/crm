@@ -123,7 +123,7 @@ CREATE TABLE `sys_user` (
   `username` varchar(20) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '用户名称',
   `telephone` varchar(13) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '手机号',
   `mail` varchar(20) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '邮箱',
-  `password` varchar(40) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '加密后的密码',
+  `password` varchar(64) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '加密后的密码',
   `dept_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户所在部门的id',
   `status` int(11) NOT NULL DEFAULT '1' COMMENT '状态，1：正常，2：冻结',
   `remark` varchar(200) COLLATE utf8mb4_bin DEFAULT '' COMMENT '备注',
@@ -132,3 +132,5 @@ CREATE TABLE `sys_user` (
   `operate_ip` varchar(20) COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '最后一次更新者的ip地址',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+insert into sys_user (username, telephone, mail, password, dept_id, status,operator,operate_ip) values('admin','15675504181', '694436921@qq.com', '$2a$10$J3MRsSnmdp/0bW7FE2MMGeoMrI4XdTYJdSWebusywDEsuGs0dshdS',1, 1,'操作者','192.168.1.1');

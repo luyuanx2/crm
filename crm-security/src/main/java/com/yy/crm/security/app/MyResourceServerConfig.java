@@ -65,7 +65,7 @@ public class MyResourceServerConfig extends ResourceServerConfigurerAdapter {
                         SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
                         SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
                         SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
-                        "/user/regist","/social/signUp","/druid/**","/v2/api-docs",
+                        "/sys/user/regist","/social/signUp","/druid/**","/v2/api-docs",
                         "/swagger-resources/configuration/ui", "/swagger-resources",
                         "/swagger-resources/configuration/security",
                         "/swagger-ui.html","/redirect"

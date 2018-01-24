@@ -40,8 +40,8 @@ public class MyUserDetailService implements UserDetailsService,SocialUserDetails
 
     @Override
     public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
-        log.info("设置登录用户Id:" + userId);
-        return buildUser(userId);
+        return sysUserMapper.selectByPrimaryKey(Integer.valueOf(userId));
+//        return buildUser(userId);
     }
 
     private SocialUserDetails buildUser(String userId) {

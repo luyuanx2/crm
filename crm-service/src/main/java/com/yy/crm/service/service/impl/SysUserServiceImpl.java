@@ -92,6 +92,13 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
         return new PageInfo<>(sysUserDtoList);
     }
 
+
+    @Override
+    public SysUser findByUsername(String username) {
+        SysUser sysUser = SysUser.builder().username(username).build();
+        return sysUserMapper.selectOne(sysUser);
+    }
+
     private SysUserDto assembleSysUserDto(SysUser user) {
         return SysUserDto.builder().id(user.getId()).deptId(user.getDeptId())
                 .mail(user.getMail()).status(user.getStatus()).telephone(user.getTelephone())

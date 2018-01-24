@@ -117,6 +117,6 @@ public class SysUser implements SocialUserDetails {
      */
     @Override
     public String getUserId() {
-        return null;
+        return String.valueOf(getId());
     }
 }
