@@ -133,4 +133,7 @@ CREATE TABLE `sys_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
-insert into sys_user (username, telephone, mail, password, dept_id, status,operator,operate_ip) values('admin','15675504181', '694436921@qq.com', '$2a$10$J3MRsSnmdp/0bW7FE2MMGeoMrI4XdTYJdSWebusywDEsuGs0dshdS',1, 1,'操作者','192.168.1.1');
+insert into sys_dept (name, level,operator,operate_ip) values('部门列表','0','system','192.168.1.1');
+insert into sys_dept (name, level,operator,operate_ip) values('技术部','0.1','system','192.168.1.1');
+insert into sys_user (username, telephone, mail, password, dept_id, status,operator,operate_ip) values('admin','15675504181', '694436921@qq.com', '$2a$10$J3MRsSnmdp/0bW7FE2MMGeoMrI4XdTYJdSWebusywDEsuGs0dshdS',1, 1,'system','192.168.1.1');
+

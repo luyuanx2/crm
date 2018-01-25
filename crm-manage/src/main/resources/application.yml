@@ -1,8 +1,8 @@
-debug: true
-logging:
-    level:
-        root: INFO
-        com.yy.crm: DEBUG
+#debug: true
+#logging:
+#    level:
+#        root: INFO
+#        com.yy.crm: DEBUG
 spring:
     application:
         name: crm-manage
@@ -48,7 +48,7 @@ yy:
       clients[0]:
         clientId: lyy
         clientSecret: lyysecret
-        accessTokenValiditySeconds: 7200
+        accessTokenValiditySeconds: 20
       clients[1]:
         clientId: lyy1
         clientSecret: lyysecret1
