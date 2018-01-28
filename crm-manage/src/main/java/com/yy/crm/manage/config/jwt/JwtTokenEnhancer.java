@@ -5,6 +5,7 @@ import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +14,8 @@ import java.util.Map;
  * 管理后台的jwtToken增强器
  * @author 鲁源源 on 2017/12/6.
  */
-public class ManageJwtTokenEnhancer implements TokenEnhancer {
+@Component("jwtTokenEnhancer")
+public class JwtTokenEnhancer implements TokenEnhancer {
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication oAuth2Authentication) {

@@ -1,4 +1,5 @@
 package com.yy.crm.security.core;
+
 import com.yy.crm.security.core.properties.SecurityProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;

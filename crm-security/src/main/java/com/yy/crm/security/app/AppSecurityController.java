@@ -36,6 +36,6 @@ public class AppSecurityController {
         userInfo.setHeadimg(connection.getImageUrl());
 
         appSignUpUtils.saveConnectionData(new ServletWebRequest(request),connection.createData());
-        return ServerResponse.createByCodeData(ResponseCode.UNAUTHORIZED,userInfo);
+        return ServerResponse.createByEnumData(ResponseCode.UNAUTHORIZED,userInfo);
     }
 }

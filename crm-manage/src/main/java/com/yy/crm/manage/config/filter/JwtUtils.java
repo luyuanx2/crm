@@ -48,14 +48,10 @@ public class JwtUtils {
     }
 
     public Claims getClaimByToken(String token) {
-//        Claims claims = Jwts.parser().setSigningKey(securityProperties.getOauth2()
-//                .getJwtSigningKey().getBytes("UTF-8"))
-//                .parseClaimsJws(token).getBody();
         try {
-            return Jwts.parser()
-                    .setSigningKey(securityProperties.getOauth2().getJwtSigningKey())
-                    .parseClaimsJws(token)
-                    .getBody();
+            return Jwts.parser().setSigningKey(securityProperties.getOauth2()
+                    .getJwtSigningKey().getBytes("UTF-8"))
+                    .parseClaimsJws(token).getBody();
         }catch (Exception e){
             log.debug("validate is token error ", e);
             return null;

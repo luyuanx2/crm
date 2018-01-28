@@ -7,6 +7,9 @@ import com.yy.crm.service.service.SysDeptService;
 import com.yy.crm.service.service.SysTreeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,7 +34,8 @@ public class SysDeptController {
      * @return
      */
     @PostMapping("/addDept")
-    private ServerResponse addDept(DeptParam param){
+    private ServerResponse addDept(@AuthenticationPrincipal UserDetails userDetails, Authentication authentication, DeptParam param){
+        System.out.println(userDetails);
         Integer deptId = sysDeptService.save(param);
         return ServerResponse.createBySuccess(deptId);
     }

@@ -70,6 +70,9 @@ public class ServerResponse<T> implements Serializable{
         return new ServerResponse<>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getMessage());
     }
 
+    public static <T> ServerResponse<T> createByEnum(CommonEnum commonEnum){
+        return new ServerResponse<>(commonEnum.getCode(),commonEnum.getMessage());
+    }
 
     public static <T> ServerResponse<T> createByErrorMessage(String errorMessage){
         return new ServerResponse<>(ResponseCode.ERROR.getCode(),errorMessage);
@@ -79,7 +82,7 @@ public class ServerResponse<T> implements Serializable{
         return new ServerResponse<>(errorCode,errorMessage);
     }
 
-    public static <T> ServerResponse<T> createByCodeData(CommonEnum commonEnum,T data) {
+    public static <T> ServerResponse<T> createByEnumData(CommonEnum commonEnum, T data) {
         return new ServerResponse<>(commonEnum.getCode(),commonEnum.getMessage(),data);
     }
 }
