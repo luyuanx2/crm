@@ -82,11 +82,11 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
     }
 
     @Override
-    public PageInfo<SysUserDto> getPageByDeptId(int deptId, PageQuery pageQuery) {
+    public PageInfo<SysUserDto> getPageByDeptId(Integer deptId, PageQuery pageQuery) {
         BeanValidator.check(pageQuery);
         SysUser sysUser = SysUser.builder().deptId(deptId).build();
         PageHelper.startPage(pageQuery.getPageNo(), pageQuery.getPageSize());
-        List<SysUser> list = this.queryListByWhere(sysUser);
+        List<SysUser> list = this.queryListByWhere(deptId != null ? sysUser : null);
         List<SysUserDto> sysUserDtoList = list.stream()
                 .map(this::assembleSysUserDto).collect(Collectors.toList());
         return new PageInfo<>(sysUserDtoList);

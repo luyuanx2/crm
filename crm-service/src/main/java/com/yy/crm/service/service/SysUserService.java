@@ -14,7 +14,7 @@ public interface SysUserService {
 
     void update(SysUserParam param);
 
-    PageInfo<SysUserDto> getPageByDeptId(int deptId, PageQuery pageQuery);
+    PageInfo<SysUserDto> getPageByDeptId(Integer deptId, PageQuery pageQuery);
 
     SysUser findByUsername(String username);
 }
