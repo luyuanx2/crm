@@ -15,10 +15,13 @@ import com.yy.crm.service.param.SysUserParam;
 import com.yy.crm.service.service.SysUserService;
 import com.yy.crm.service.service.base.BaseService;
 import com.yy.crm.utils.IpUtil;
+import com.yy.crm.utils.MailUtil;
 import com.yy.crm.utils.YYUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.weekend.Weekend;
+import tk.mybatis.mapper.weekend.WeekendCriteria;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,6 +37,8 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
     private SysUserMapper sysUserMapper;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private MailUtil mailUtil;
 
     @Override
     public void save(SysUserParam param) {
@@ -45,8 +50,6 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
             throw new ParamException(PermissionCode.EMAIL_ALREADY_EXIST);
         }
         String password = YYUtil.randomPassword();
-        //TODO:
-        password = "12345678";
         String encodePassword = passwordEncoder.encode(password);
         SysUser user = SysUser.builder().username(param.getUsername()).telephone(param.getTelephone()).mail(param.getMail())
                 .password(encodePassword).deptId(param.getDeptId()).status(param.getStatus()).remark(param.getRemark()).build();
@@ -55,6 +58,7 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
         user.setOperateTime(LocalDateTime.now());
 
         // TODO: sendEmail
+        mailUtil.sendHtmlMessage(user.getMail(),"注册成功",mailUtil.getMailCapacity(password,user.getUsername()));
 
         this.save(user);
         //sysLogService.saveUserLog(null, user);
@@ -84,9 +88,15 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
     @Override
     public PageInfo<SysUserDto> getPageByDeptId(Integer deptId, PageQuery pageQuery) {
         BeanValidator.check(pageQuery);
-        SysUser sysUser = SysUser.builder().deptId(deptId).build();
         PageHelper.startPage(pageQuery.getPageNo(), pageQuery.getPageSize());
-        List<SysUser> list = this.queryListByWhere(deptId != null ? sysUser : null);
+//        SysUser sysUser = SysUser.builder().deptId(deptId).build();
+        Weekend<SysUser> weekend = Weekend.of(SysUser.class);
+        WeekendCriteria<SysUser, Object> criteria = weekend.weekendCriteria();
+        if(deptId != null) {
+            criteria.andEqualTo(SysUser::getDeptId,deptId);
+        }
+        List<SysUser> list = sysUserMapper.selectByExample(weekend);
+//        List<SysUser> list = this.queryListByWhere(deptId != null ? sysUser : null);
         List<SysUserDto> sysUserDtoList = list.stream()
                 .map(this::assembleSysUserDto).collect(Collectors.toList());
         return new PageInfo<>(sysUserDtoList);

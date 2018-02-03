@@ -15,6 +15,25 @@ spring:
       port: 6379
     profiles:
         active: dev
+#    邮件服务
+    mail:
+      default-encoding: UTF-8
+      host: smtp.163.com
+      username: luyuanx2@163.com
+      password: 122525lll
+      port: 25
+      test-connection: false
+      properties:
+            mail:
+              smtp:
+                auth: true
+                starttls:
+                  enable: true
+                  required: true
+                connectiontimeout: 5000
+                timeout: 3000
+                writetimeout: 5000
+
 server:
     port: 80
     context-path: /manage
@@ -31,6 +50,8 @@ security:
     basic:
         enabled: false
 yy:
+  manage:
+    url: http://192.168.1.55:8999/login
   security:
     social:
       tablePrefix: yy_
@@ -48,7 +69,7 @@ yy:
       clients[0]:
         clientId: lyy
         clientSecret: lyysecret
-        accessTokenValiditySeconds: 20
+        accessTokenValiditySeconds: 7200
       clients[1]:
         clientId: lyy1
         clientSecret: lyysecret1

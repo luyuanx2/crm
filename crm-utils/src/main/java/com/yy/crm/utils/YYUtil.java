@@ -38,6 +38,7 @@ public class YYUtil {
         return stringBuffer.toString();
     }
 
+
     public static void main(String[] args) throws Exception {
         System.out.println(randomPassword());
         Thread.sleep(100);
