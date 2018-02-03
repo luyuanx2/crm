@@ -134,7 +134,7 @@ public class MailUtil {
                 return sb.toString();
             }
         } catch (Exception e) {
-            log.error("getMailCapacity发生异常",e);
+            log.error("getMailCapacity异常",e);
         }
         return "";
     }
