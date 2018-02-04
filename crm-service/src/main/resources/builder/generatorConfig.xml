@@ -39,10 +39,6 @@
             <generatedKey column="id" identity="true" sqlStatement="myql"/>
             <columnOverride column="operate_time" javaType="java.time.LocalDateTime" />
         </table>
-        <table tableName="sys_acl_module" domainObjectName="SysAclModule" >
-            <generatedKey column="id" identity="true" sqlStatement="myql"/>
-            <columnOverride column="operate_time" javaType="java.time.LocalDateTime" />
-        </table>
         <table tableName="sys_role" domainObjectName="SysRole" >
             <generatedKey column="id" identity="true" sqlStatement="myql"/>
             <columnOverride column="operate_time" javaType="java.time.LocalDateTime" />

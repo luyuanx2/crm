@@ -10,5 +10,4 @@ public interface SysUserMapper extends MyMapper<SysUser> {
     int countByMail(@Param("mail") String mail, @Param("id") Integer id);
 
     int countByTelephone(@Param("telephone") String telephone, @Param("id") Integer id);
-
 }

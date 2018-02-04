@@ -1,5 +1,6 @@
 package com.yy.crm.service.service;
 
+import com.yy.crm.service.dto.AclLevelDto;
 import com.yy.crm.service.dto.DeptLevelDto;
 
 import java.util.List;
@@ -10,4 +11,6 @@ import java.util.List;
 public interface SysTreeService {
 
     List<DeptLevelDto> deptTree();
+
+    List<AclLevelDto> aclTree();
 }

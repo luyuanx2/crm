@@ -1,20 +1,11 @@
 package com.yy.crm.service.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.social.security.SocialUserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -34,9 +25,21 @@ public class SysUser implements SocialUserDetails {
     private Integer id;
 
     /**
-     * 用户名称
+     * 真实姓名
+     */
+    @Column(name = "real_name")
+    private String realName;
+
+    /**
+     * 用户名
      */
     private String username;
+
+    /**
+     * 工号
+     */
+    @Column(name = "job_num")
+    private String jobNum;
 
     /**
      * 手机号
@@ -63,6 +66,11 @@ public class SysUser implements SocialUserDetails {
      * 状态，1：正常，2：冻结
      */
     private Integer status;
+
+    /**
+     * 状态，0：删除，1：正常
+     */
+    private Boolean enabled;
 
     /**
      * 备注
@@ -98,7 +106,7 @@ public class SysUser implements SocialUserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return this.status == 1;
     }
 
     @Override
@@ -108,7 +116,7 @@ public class SysUser implements SocialUserDetails {
 
     @Override
     public boolean isEnabled() {
-        return getStatus() == 1;
+        return this.enabled;
     }
 
     /**

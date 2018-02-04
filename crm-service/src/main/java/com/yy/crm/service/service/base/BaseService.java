@@ -143,4 +143,8 @@ public abstract class BaseService<T> {
     public Integer deleteByWhere(T entity) {
         return mapper.delete(entity);
     }
+
+    public int countByWhere(T entity) {
+        return mapper.selectCount(entity);
+    }
 }
