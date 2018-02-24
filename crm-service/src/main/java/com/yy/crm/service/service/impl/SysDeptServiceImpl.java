@@ -1,7 +1,7 @@
 package com.yy.crm.service.service.impl;
 
 import com.google.common.base.Preconditions;
-import com.yy.crm.common.response.PermissionCode;
+import com.yy.crm.common.response.RbacCode;
 import com.yy.crm.security.common.exception.ParamException;
 import com.yy.crm.security.common.util.BeanValidator;
 import com.yy.crm.service.common.RequestHolder;
@@ -38,7 +38,7 @@ public class SysDeptServiceImpl extends BaseService<SysDept> implements SysDeptS
         //不能有部门名称相同
         boolean flag = checkExist(param.getParentId(),param.getName(),param.getId());
         if(flag){
-            throw new ParamException(PermissionCode.DEPT_ALREADY_EXIST);
+            throw new ParamException(RbacCode.DEPT_ALREADY_EXIST);
         }
         SysDept sysDept = SysDept.builder().name(param.getName())
                 .parentId(param.getParentId())
@@ -58,7 +58,7 @@ public class SysDeptServiceImpl extends BaseService<SysDept> implements SysDeptS
         BeanValidator.check(param);
         //不能有部门名称相同
         if(checkExist(param.getParentId(),param.getName(),param.getId())){
-            throw new ParamException(PermissionCode.DEPT_ALREADY_EXIST);
+            throw new ParamException(RbacCode.DEPT_ALREADY_EXIST);
         }
         //判断原来的部门是否存在
         SysDept before = this.queryById(param.getId());
@@ -80,10 +80,10 @@ public class SysDeptServiceImpl extends BaseService<SysDept> implements SysDeptS
         SysDept dept = this.queryById(deptId);
         Preconditions.checkNotNull(dept, "待删除的部门不存在，无法删除");
         if (sysDeptMapper.countByParentId(dept.getId()) > 0) {
-            throw new ParamException(PermissionCode.EXIST_CHILDREN_DEPT);
+            throw new ParamException(RbacCode.EXIST_CHILDREN_DEPT);
         }
         if(sysUserMapper.countByDeptId(dept.getId()) > 0) {
-            throw new ParamException(PermissionCode.EXIST_CHILDREN_SYSUSER);
+            throw new ParamException(RbacCode.EXIST_CHILDREN_SYSUSER);
         }
         sysDeptMapper.deleteByPrimaryKey(deptId);
     }

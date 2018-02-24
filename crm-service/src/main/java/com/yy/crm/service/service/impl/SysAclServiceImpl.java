@@ -1,7 +1,7 @@
 package com.yy.crm.service.service.impl;
 
 import com.google.common.base.Preconditions;
-import com.yy.crm.common.response.PermissionCode;
+import com.yy.crm.common.response.RbacCode;
 import com.yy.crm.security.common.exception.ParamException;
 import com.yy.crm.security.common.util.BeanValidator;
 import com.yy.crm.service.common.RequestHolder;
@@ -34,7 +34,7 @@ public class SysAclServiceImpl extends BaseService<SysAcl> implements SysAclServ
     public void save(AclParam param) {
         BeanValidator.check(param);
         if(checkExist(param.getParentId(),param.getName(),param.getId())) {
-            throw new ParamException(PermissionCode.ACL_ALREADY_EXIST);
+            throw new ParamException(RbacCode.ACL_ALREADY_EXIST);
         }
 
         SysAcl acl = SysAcl.builder().type(param.getType()).icon(param.getIcon()).url(param.getUrl())
@@ -52,7 +52,7 @@ public class SysAclServiceImpl extends BaseService<SysAcl> implements SysAclServ
     public void update(AclParam param) {
         BeanValidator.check(param);
         if(checkExist(param.getParentId(), param.getName(), param.getId())) {
-            throw new ParamException(PermissionCode.ACL_ALREADY_EXIST);
+            throw new ParamException(RbacCode.ACL_ALREADY_EXIST);
         }
         SysAcl before = sysAclMapper.selectByPrimaryKey(param.getId());
         Preconditions.checkNotNull(before, "待更新的权限不存在");

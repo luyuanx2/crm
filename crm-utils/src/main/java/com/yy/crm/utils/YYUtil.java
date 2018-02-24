@@ -1,6 +1,10 @@
 package com.yy.crm.utils;
 
+import com.google.common.base.Splitter;
+
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * @author luyuanyuan on 2018/1/17.
@@ -45,5 +49,10 @@ public class YYUtil {
         System.out.println(randomPassword());
         Thread.sleep(100);
         System.out.println(randomPassword());
+    }
+
+    public static List<Integer> splitToListInt(String str) {
+        List<String> strList = Splitter.on(",").trimResults().omitEmptyStrings().splitToList(str);
+        return strList.stream().map(Integer::parseInt).collect(Collectors.toList());
     }
 }

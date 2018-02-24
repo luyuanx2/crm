@@ -3,7 +3,7 @@ package com.yy.crm.service.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Preconditions;
-import com.yy.crm.common.response.PermissionCode;
+import com.yy.crm.common.response.RbacCode;
 import com.yy.crm.security.common.exception.ParamException;
 import com.yy.crm.security.common.util.BeanValidator;
 import com.yy.crm.service.common.RequestHolder;
@@ -44,10 +44,10 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
     public void save(SysUserParam param) {
         BeanValidator.check(param);
         if (checkTelephoneExist(param.getTelephone(), param.getId())) {
-            throw new ParamException(PermissionCode.MOBILE_ALREADY_EXIST);
+            throw new ParamException(RbacCode.MOBILE_ALREADY_EXIST);
         }
         if (checkEmailExist(param.getMail(), param.getId())) {
-            throw new ParamException(PermissionCode.EMAIL_ALREADY_EXIST);
+            throw new ParamException(RbacCode.EMAIL_ALREADY_EXIST);
         }
         String password = YYUtil.randomPassword();
         String encodePassword = passwordEncoder.encode(password);
@@ -68,10 +68,10 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
     public void update(SysUserParam param) {
         BeanValidator.check(param);
         if (checkTelephoneExist(param.getTelephone(), param.getId())) {
-            throw new ParamException(PermissionCode.MOBILE_ALREADY_EXIST);
+            throw new ParamException(RbacCode.MOBILE_ALREADY_EXIST);
         }
         if (checkEmailExist(param.getMail(), param.getId())) {
-            throw new ParamException(PermissionCode.EMAIL_ALREADY_EXIST);
+            throw new ParamException(RbacCode.EMAIL_ALREADY_EXIST);
         }
         SysUser before = sysUserMapper.selectByPrimaryKey(param.getId());
         Preconditions.checkNotNull(before, "待更新的用户不存在");
@@ -107,6 +107,16 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
     public SysUser findByUsername(String username) {
         SysUser sysUser = SysUser.builder().username(username).build();
         return sysUserMapper.selectOne(sysUser);
+    }
+
+    @Override
+    public List<SysUser> getAll() {
+        return sysUserMapper.selectAll();
+    }
+
+    @Override
+    public List<SysUser> findByStatusAndEnable(Integer status, Boolean enable) {
+        return sysUserMapper.findByStatusAndEnable(status,enable);
     }
 
     private SysUserDto assembleSysUserDto(SysUser user) {

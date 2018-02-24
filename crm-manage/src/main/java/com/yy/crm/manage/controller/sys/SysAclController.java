@@ -6,12 +6,18 @@ import com.yy.crm.service.service.SysAclService;
 import com.yy.crm.service.service.SysTreeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author 鲁源源 on 2018/2/4.
  */
-@RestController("/sys/acl")
+@RestController
+@RequestMapping("/sys/acl")
 @Slf4j
 public class SysAclController {
 
@@ -20,14 +26,45 @@ public class SysAclController {
     @Autowired
     private SysAclService sysAclService;
 
+    /**
+     * 保存权限
+     * @param param
+     * @reurn
+     */
     @PostMapping("/save")
     public ServerResponse saveAcl(AclParam param) {
         sysAclService.save(param);
         return ServerResponse.createBySuccess();
     }
 
+    /**
+     * 权限树
+     * @return
+     */
     @GetMapping("/tree")
     public ServerResponse tree() {
         return ServerResponse.createBySuccess(sysTreeService.aclTree());
+    }
+
+    /**
+     * 更新权限
+     * @param param
+     * @return
+     */
+    @PostMapping("/update")
+    public ServerResponse updateAcl(AclParam param) {
+        sysAclService.update(param);
+        return ServerResponse.createBySuccess();
+    }
+
+    /**
+     * 删除权限
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/delete")
+    public ServerResponse delete(@RequestParam("id") int id) {
+        sysAclService.delete(id);
+        return ServerResponse.createBySuccess();
     }
 }

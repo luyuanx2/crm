@@ -9,6 +9,7 @@ import com.yy.crm.service.mapper.SysAclMapper;
 import com.yy.crm.service.mapper.SysDeptMapper;
 import com.yy.crm.service.model.SysAcl;
 import com.yy.crm.service.model.SysDept;
+import com.yy.crm.service.service.SysCoreService;
 import com.yy.crm.service.service.SysTreeService;
 import com.yy.crm.utils.LevelUtil;
 import org.apache.commons.collections.CollectionUtils;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -29,6 +31,8 @@ public class SysTreeServiceImpl implements SysTreeService {
     private SysDeptMapper sysDeptMapper;
     @Autowired
     private SysAclMapper sysAclMapper;
+    @Autowired
+    private SysCoreService sysCoreService;
 
     @Override
     public List<DeptLevelDto> deptTree() {
@@ -45,6 +49,32 @@ public class SysTreeServiceImpl implements SysTreeService {
             dtoList.add(AclLevelDto.adapt(acl));
         }
         return aclListToTree(dtoList);
+    }
+
+    @Override
+    public List<AclLevelDto> roleTree(int roleId) {
+        // 1、当前用户已分配的权限点
+        List<SysAcl> userAclList = sysCoreService.getCurrentUserAclList();
+        // 2、当前角色分配的权限点
+        List<SysAcl> roleAclList = sysCoreService.getRoleAclList(roleId);
+        // 3、当前系统所有权限点
+        List<AclLevelDto> aclDtoList = Lists.newArrayList();
+
+        Set<Integer> userAclIdSet = userAclList.stream().map(SysAcl::getId).collect(Collectors.toSet());
+        Set<Integer> roleAclIdSet = roleAclList.stream().map(SysAcl::getId).collect(Collectors.toSet());
+
+        List<SysAcl> allAclList = sysAclMapper.selectAll();
+        for (SysAcl acl : allAclList) {
+            AclLevelDto dto = AclLevelDto.adapt(acl);
+            if (userAclIdSet.contains(acl.getId())) {
+                dto.setHasAcl(true);
+            }
+            if (roleAclIdSet.contains(acl.getId())) {
+                dto.setChecked(true);
+            }
+            aclDtoList.add(dto);
+        }
+        return aclListToTree(aclDtoList);
     }
 
     private List<AclLevelDto> aclListToTree(List<AclLevelDto> dtoList) {

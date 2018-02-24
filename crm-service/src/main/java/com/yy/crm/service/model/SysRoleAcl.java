@@ -1,8 +1,25 @@
 package com.yy.crm.service.model;
 
-import java.time.LocalDateTime;
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.time.LocalDateTime;
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Getter
+@Setter
 @Table(name = "sys_role_acl")
 public class SysRoleAcl {
     /**
@@ -41,111 +58,5 @@ public class SysRoleAcl {
     @Column(name = "operate_ip")
     private String operateIp;
 
-    /**
-     * 获取角色权限关联表id
-     *
-     * @return id - 角色权限关联表id
-     */
-    public Integer getId() {
-        return id;
-    }
 
-    /**
-     * 设置角色权限关联表id
-     *
-     * @param id 角色权限关联表id
-     */
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    /**
-     * 获取角色id
-     *
-     * @return role_id - 角色id
-     */
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    /**
-     * 设置角色id
-     *
-     * @param roleId 角色id
-     */
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
-
-    /**
-     * 获取权限id
-     *
-     * @return acl_id - 权限id
-     */
-    public Integer getAclId() {
-        return aclId;
-    }
-
-    /**
-     * 设置权限id
-     *
-     * @param aclId 权限id
-     */
-    public void setAclId(Integer aclId) {
-        this.aclId = aclId;
-    }
-
-    /**
-     * 获取操作者
-     *
-     * @return operator - 操作者
-     */
-    public String getOperator() {
-        return operator;
-    }
-
-    /**
-     * 设置操作者
-     *
-     * @param operator 操作者
-     */
-    public void setOperator(String operator) {
-        this.operator = operator;
-    }
-
-    /**
-     * 获取最后一次更新时间
-     *
-     * @return operate_time - 最后一次更新时间
-     */
-    public LocalDateTime getOperateTime() {
-        return operateTime;
-    }
-
-    /**
-     * 设置最后一次更新时间
-     *
-     * @param operateTime 最后一次更新时间
-     */
-    public void setOperateTime(LocalDateTime operateTime) {
-        this.operateTime = operateTime;
-    }
-
-    /**
-     * 获取最后一次更新者ip
-     *
-     * @return operate_ip - 最后一次更新者ip
-     */
-    public String getOperateIp() {
-        return operateIp;
-    }
-
-    /**
-     * 设置最后一次更新者ip
-     *
-     * @param operateIp 最后一次更新者ip
-     */
-    public void setOperateIp(String operateIp) {
-        this.operateIp = operateIp;
-    }
 }

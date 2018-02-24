@@ -6,6 +6,8 @@ import com.yy.crm.service.model.SysUser;
 import com.yy.crm.service.param.PageQuery;
 import com.yy.crm.service.param.SysUserParam;
 
+import java.util.List;
+
 /**
  * @author luyuanyuan on 2018/1/17.
  */
@@ -17,4 +19,8 @@ public interface SysUserService {
     PageInfo<SysUserDto> getPageByDeptId(Integer deptId, PageQuery pageQuery);
 
     SysUser findByUsername(String username);
+
+    List<SysUser> getAll();
+
+    List<SysUser> findByStatusAndEnable(Integer status, Boolean enable);
 }
