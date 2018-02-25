@@ -5,8 +5,8 @@ logging:
         tk.mybatis: DEBUG
 spring:
     datasource:
-        name: develop
-        url: jdbc:mysql://192.168.202.5:3306/crm?useUnicode=true&characterEncoding=UTF8&autoReconnect=true
+        name: dev
+        url: jdbc:mysql://106.14.156.240:3306/crm?useUnicode=true&characterEncoding=UTF8&autoReconnect=true
         username: ${MYSQL_CRM_USERNAME}
         password: ${MYSQL_CRM_PASSWORD}
         # 使用druid数据源

@@ -6,12 +6,7 @@ import com.yy.crm.service.service.SysAclService;
 import com.yy.crm.service.service.SysTreeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author 鲁源源 on 2018/2/4.
@@ -51,7 +46,7 @@ public class SysAclController {
      * @param param
      * @return
      */
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ServerResponse updateAcl(AclParam param) {
         sysAclService.update(param);
         return ServerResponse.createBySuccess();
