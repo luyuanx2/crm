@@ -1,6 +1,5 @@
 package com.yy.crm.service.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 import com.yy.crm.service.model.SysDept;
 import lombok.Getter;
@@ -23,7 +22,6 @@ public class DeptLevelDto {
     /**
      * 部门名称
      */
-    @JsonProperty("label")
     private String name;
 
     /**
@@ -46,7 +44,6 @@ public class DeptLevelDto {
      */
     private String remark;
 
-    @JsonProperty("children")
     private List<DeptLevelDto> deptList = Lists.newArrayList();
 
     public static DeptLevelDto adapt(SysDept dept){

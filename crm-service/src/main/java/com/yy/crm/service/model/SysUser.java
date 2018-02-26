@@ -70,7 +70,7 @@ public class SysUser implements SocialUserDetails {
     /**
      * 状态，0：删除，1：正常
      */
-    private Boolean enabled;
+    private Boolean usable;
 
     /**
      * 备注
@@ -116,7 +116,7 @@ public class SysUser implements SocialUserDetails {
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return this.usable;
     }
 
     /**

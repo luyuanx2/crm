@@ -3,21 +3,14 @@ package com.yy.crm.service.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.base.Preconditions;
+import com.yy.crm.common.Const;
 import com.yy.crm.common.LogType;
 import com.yy.crm.security.common.exception.ParamException;
 import com.yy.crm.security.common.util.BeanValidator;
 import com.yy.crm.security.common.util.JsonUtils;
 import com.yy.crm.service.common.RequestHolder;
-import com.yy.crm.service.mapper.SysAclMapper;
-import com.yy.crm.service.mapper.SysDeptMapper;
-import com.yy.crm.service.mapper.SysLogMapper;
-import com.yy.crm.service.mapper.SysRoleMapper;
-import com.yy.crm.service.mapper.SysUserMapper;
-import com.yy.crm.service.model.SysAcl;
-import com.yy.crm.service.model.SysDept;
-import com.yy.crm.service.model.SysLog;
-import com.yy.crm.service.model.SysRole;
-import com.yy.crm.service.model.SysUser;
+import com.yy.crm.service.mapper.*;
+import com.yy.crm.service.model.*;
 import com.yy.crm.service.param.PageQuery;
 import com.yy.crm.service.param.SearchLogParam;
 import com.yy.crm.service.service.SysLogService;
@@ -28,6 +21,7 @@ import com.yy.crm.utils.IpUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -54,9 +48,13 @@ public class SysLogServiceImpl extends BaseService<SysLog> implements SysLogServ
     private SysRoleUserService sysRoleUserService;
 
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public void recover(int id) {
         SysLog sysLog = sysLogMapper.selectByPrimaryKey(id);
         Preconditions.checkNotNull(sysLog, "待还原的记录不存在");
+        if(Const.LogStatus.RECOVERED == sysLog.getStatus()) {
+            throw new ParamException("该条记录已经进行过还原操作，请勿重复操作！");
+        }
         switch (sysLog.getType()){
             case LogType.TYPE_DEPT:
                 SysDept beforeDept = sysDeptMapper.selectByPrimaryKey(sysLog.getTargetId());
@@ -122,6 +120,8 @@ public class SysLogServiceImpl extends BaseService<SysLog> implements SysLogServ
                 break;
             default:;
         }
+        sysLog.setStatus(Const.LogStatus.RECOVERED);
+        sysLogMapper.updateByPrimaryKey(sysLog);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class SysLogServiceImpl extends BaseService<SysLog> implements SysLogServ
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
         sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysLog.setOperateTime(LocalDateTime.now());
-        sysLog.setStatus(1);
+        sysLog.setStatus(Const.LogStatus.UN_RECOVERED);
         sysLogMapper.insertSelective(sysLog);
     }
 
@@ -148,7 +148,7 @@ public class SysLogServiceImpl extends BaseService<SysLog> implements SysLogServ
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
         sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysLog.setOperateTime(LocalDateTime.now());
-        sysLog.setStatus(1);
+        sysLog.setStatus(Const.LogStatus.UN_RECOVERED);
         sysLogMapper.insertSelective(sysLog);
     }
 
@@ -162,7 +162,7 @@ public class SysLogServiceImpl extends BaseService<SysLog> implements SysLogServ
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
         sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysLog.setOperateTime(LocalDateTime.now());
-        sysLog.setStatus(1);
+        sysLog.setStatus(Const.LogStatus.UN_RECOVERED);
         sysLogMapper.insertSelective(sysLog);
     }
 
@@ -176,7 +176,7 @@ public class SysLogServiceImpl extends BaseService<SysLog> implements SysLogServ
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
         sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysLog.setOperateTime(LocalDateTime.now());
-        sysLog.setStatus(1);
+        sysLog.setStatus(Const.LogStatus.UN_RECOVERED);
         sysLogMapper.insertSelective(sysLog);
     }
 
@@ -190,7 +190,7 @@ public class SysLogServiceImpl extends BaseService<SysLog> implements SysLogServ
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
         sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysLog.setOperateTime(LocalDateTime.now());
-        sysLog.setStatus(1);
+        sysLog.setStatus(Const.LogStatus.UN_RECOVERED);
         sysLogMapper.insertSelective(sysLog);
     }
 
@@ -221,7 +221,7 @@ public class SysLogServiceImpl extends BaseService<SysLog> implements SysLogServ
         sysLog.setOperator(RequestHolder.getCurrentUser().getUsername());
         sysLog.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysLog.setOperateTime(LocalDateTime.now());
-        sysLog.setStatus(1);
+        sysLog.setStatus(Const.LogStatus.UN_RECOVERED);
         sysLogMapper.insertSelective(sysLog);
     }
 }

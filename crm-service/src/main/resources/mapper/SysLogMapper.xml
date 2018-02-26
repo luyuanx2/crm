@@ -20,7 +20,7 @@
     id, type, target_id, operator, operate_time, operate_ip, status,old_value, new_value
   </sql>
 
-  <select id="searchList" resultType="com.yy.crm.service.model.SysLog">
+  <select id="searchList" parameterType="map" resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List" />
     FROM sys_log
     <include refid="queryConditions" />
