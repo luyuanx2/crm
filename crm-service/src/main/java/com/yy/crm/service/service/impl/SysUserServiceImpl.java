@@ -12,6 +12,7 @@ import com.yy.crm.service.mapper.SysUserMapper;
 import com.yy.crm.service.model.SysUser;
 import com.yy.crm.service.param.PageQuery;
 import com.yy.crm.service.param.SysUserParam;
+import com.yy.crm.service.service.SysLogService;
 import com.yy.crm.service.service.SysUserService;
 import com.yy.crm.service.service.base.BaseService;
 import com.yy.crm.utils.IpUtil;
@@ -39,6 +40,8 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
     private PasswordEncoder passwordEncoder;
     @Autowired
     private MailUtil mailUtil;
+    @Autowired
+    private SysLogService sysLogService;
 
     @Override
     public void save(SysUserParam param) {
@@ -60,8 +63,8 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
         // TODO: sendEmail
         mailUtil.sendHtmlMessage(user.getMail(),"注册成功",mailUtil.getMailCapacity(password,user.getUsername()));
 
-        this.save(user);
-        //sysLogService.saveUserLog(null, user);
+        this.saveSelective(user);
+        sysLogService.saveUserLog(null, user);
     }
 
     @Override
@@ -82,7 +85,7 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
         after.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         after.setOperateTime(LocalDateTime.now());
         sysUserMapper.updateByPrimaryKeySelective(after);
-        //sysLogService.saveUserLog(before, after);
+        sysLogService.saveUserLog(before, after);
     }
 
     @Override

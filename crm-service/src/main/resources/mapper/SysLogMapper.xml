@@ -15,4 +15,37 @@
     <result column="old_value" property="oldValue" jdbcType="LONGVARCHAR" />
     <result column="new_value" property="newValue" jdbcType="LONGVARCHAR" />
   </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, type, target_id, operator, operate_time, operate_ip, status,old_value, new_value
+  </sql>
+
+  <select id="searchList" resultType="com.yy.crm.service.model.SysLog">
+    SELECT <include refid="Base_Column_List" />
+    FROM sys_log
+    <include refid="queryConditions" />
+    ORDER BY operate_time DESC
+  </select>
+  <sql id="queryConditions">
+    <where>
+      <if test="param.type != null">
+        AND type = #{param.type}
+      </if>
+      <if test="param.beforeSeg != null and param.beforeSeg != ''">
+        AND old_value like #{param.beforeSeg}
+      </if>
+      <if test="param.afterSeg != null and param.afterSeg != ''">
+        AND new_value like #{param.afterSeg}
+      </if>
+      <if test="param.operator != null and param.operator != ''">
+        AND operator like #{param.operator}
+      </if>
+      <if test="param.beginTime != null">
+        AND operate_time &gt;= #{param.beginTime}
+      </if>
+      <if test="param.endTime != null">
+        AND operate_time &lt;= #{param.endTime}
+      </if>
+    </where>
+  </sql>
 </mapper>

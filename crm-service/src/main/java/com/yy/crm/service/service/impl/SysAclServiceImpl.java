@@ -9,6 +9,7 @@ import com.yy.crm.service.mapper.SysAclMapper;
 import com.yy.crm.service.model.SysAcl;
 import com.yy.crm.service.param.AclParam;
 import com.yy.crm.service.service.SysAclService;
+import com.yy.crm.service.service.SysLogService;
 import com.yy.crm.service.service.base.BaseService;
 import com.yy.crm.utils.IpUtil;
 import com.yy.crm.utils.LevelUtil;
@@ -30,6 +31,8 @@ public class SysAclServiceImpl extends BaseService<SysAcl> implements SysAclServ
 
     @Autowired
     private SysAclMapper sysAclMapper;
+    @Autowired
+    private SysLogService sysLogService;
     @Override
     public void save(AclParam param) {
         BeanValidator.check(param);
@@ -44,8 +47,8 @@ public class SysAclServiceImpl extends BaseService<SysAcl> implements SysAclServ
         acl.setOperator(RequestHolder.getCurrentUser().getUsername());
         acl.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         acl.setOperateTime(LocalDateTime.now());
-        this.save(acl);
-        //sysLogService.saveAclModuleLog(null, aclModule);
+        this.saveSelective(acl);
+        sysLogService.saveAclLog(null, acl);
     }
 
     @Override
@@ -67,7 +70,7 @@ public class SysAclServiceImpl extends BaseService<SysAcl> implements SysAclServ
         after.setOperateTime(LocalDateTime.now());
 
         updateWithChild(before, after);
-        //sysLogService.saveAclModuleLog(before, after);
+        sysLogService.saveAclLog(before, after);
     }
 
     @Override

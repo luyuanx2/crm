@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 import com.yy.crm.service.common.RequestHolder;
 import com.yy.crm.service.mapper.SysRoleAclMapper;
 import com.yy.crm.service.model.SysRoleAcl;
+import com.yy.crm.service.service.SysLogService;
 import com.yy.crm.service.service.SysRoleAclService;
 import com.yy.crm.service.service.base.BaseService;
 import com.yy.crm.utils.IpUtil;
@@ -24,6 +25,8 @@ import java.util.Set;
 public class SysRoleAclServiceImpl extends BaseService<SysRoleAcl> implements SysRoleAclService {
     @Autowired
     private SysRoleAclMapper sysRoleAclMapper;
+    @Autowired
+    private SysLogService sysLogService;
 
     @Override
     public void changeRoleAcls(int roleId, List<Integer> aclIdList) {
@@ -37,7 +40,7 @@ public class SysRoleAclServiceImpl extends BaseService<SysRoleAcl> implements Sy
             }
         }
         updateRoleAcls(roleId, aclIdList);
-//        saveRoleAclLog(roleId, originAclIdList, aclIdList);
+        sysLogService.saveRoleAclLog(roleId, originAclIdList, aclIdList);
     }
 
     @Transactional
@@ -55,4 +58,5 @@ public class SysRoleAclServiceImpl extends BaseService<SysRoleAcl> implements Sy
         }
         sysRoleAclMapper.batchInsert(roleAclList);
     }
+
 }

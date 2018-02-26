@@ -1,54 +1,164 @@
 package com.yy.crm.security.common.util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.yy.crm.utils.YYUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
  * Created by luyuanyuan on 2017/11/7.
  */
+@Slf4j
 public class JsonUtils {
 
-    // 定义jackson对象
-    public static final ObjectMapper MAPPER = new ObjectMapper();
+    private static ObjectMapper objectMapper = new ObjectMapper();
+    static{
+        //对象的所有字段全部列入
+        objectMapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
 
-    /**
-     * 将对象转换成json字符串。
-     * <p>Title: pojoToJson</p>
-     * <p>Description: </p>
-     *
-     * @param data
-     * @return
-     */
-    public static String objectToJson(Object data) {
-        try {
-            String string = MAPPER.writeValueAsString(data);
-            return string;
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return null;
+        //取消默认转换timestamps形式
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS,false);
+
+        //忽略空Bean转json的错误
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS,false);
+
+        //所有的日期格式都统一为以下的样式，即yyyy-MM-dd HH:mm:ss
+        objectMapper.setDateFormat(new SimpleDateFormat(YYUtil.STANDARD_FORMAT));
+
+        //忽略 在json字符串中存在，但是在java对象中不存在对应属性的情况。防止错误
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
     }
 
-    /**
-     * 将json结果集转化为对象
-     *
-     * @param jsonData json数据
-     * @param beanType 对象中的object类型
-     * @return
-     */
-    public static <T> T jsonToPojo(String jsonData, Class<T> beanType) {
+
+
+    public static <T> String obj2String(T obj){
+        if(obj == null){
+            return null;
+        }
         try {
-            T t = MAPPER.readValue(jsonData, beanType);
-            return t;
+            return obj instanceof String ? (String)obj :  objectMapper.writeValueAsString(obj);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.warn("Parse Object to String error",e);
+            return null;
         }
-        return null;
     }
 
+    public static <T> String obj2StringPretty(T obj){
+        if(obj == null){
+            return null;
+        }
+        try {
+            return obj instanceof String ? (String)obj :  objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+        } catch (Exception e) {
+            log.warn("Parse Object to String error",e);
+            return null;
+        }
+    }
+
+
+    public static <T> T string2Obj(String str,Class<T> clazz){
+        if(StringUtils.isEmpty(str) || clazz == null){
+            return null;
+        }
+        try {
+            return clazz.equals(String.class)? (T)str : objectMapper.readValue(str,clazz);
+        } catch (Exception e) {
+            log.warn("Parse String to Object error",e);
+            return null;
+        }
+    }
+
+
+
+    public static <T> T string2Obj(String str, TypeReference<T> typeReference){
+        if(StringUtils.isEmpty(str) || typeReference == null){
+            return null;
+        }
+        try {
+            return (T)(typeReference.getType().equals(String.class)? str : objectMapper.readValue(str,typeReference));
+        } catch (Exception e) {
+            log.warn("Parse String to Object error",e);
+            return null;
+        }
+    }
+
+
+    public static <T> T string2Obj(String str,Class<?> collectionClass,Class<?>... elementClasses){
+        JavaType javaType = objectMapper.getTypeFactory().constructParametricType(collectionClass,elementClasses);
+        try {
+            return objectMapper.readValue(str,javaType);
+        } catch (Exception e) {
+            log.warn("Parse String to Object error",e);
+            return null;
+        }
+    }
+
+    public static <T> List<T> string2List(String jsonData, Class<T> beanType) {
+        JavaType javaType = objectMapper.getTypeFactory().constructParametricType(List.class, beanType);
+        try {
+            return objectMapper.readValue(jsonData, javaType);
+        } catch (Exception e) {
+            log.warn("Parse String to List error",e);
+            return null;
+        }
+    }
+
+
+    public static void main(String[] args) {
+//        User user = new User();
+//        user.setId(2);
+//        user.setEmail("geely@happymmall.com");
+//        user.setCreateTime(new Date());
+//        String userJsonPretty = JsonUtil.obj2StringPretty(user);
+//        log.info("userJson:{}",userJsonPretty);
+
+
+//        User u2 = new User();
+//        u2.setId(2);
+//        u2.setEmail("geelyu2@happymmall.com");
+//
+//
+//
+//        String user1Json = JsonUtil.obj2String(u1);
+//
+//        String user1JsonPretty = JsonUtil.obj2StringPretty(u1);
+//
+//        log.info("user1Json:{}",user1Json);
+//
+//        log.info("user1JsonPretty:{}",user1JsonPretty);
+//
+//
+//        User user = JsonUtil.string2Obj(user1Json,User.class);
+//
+//
+//        List<User> userList = Lists.newArrayList();
+//        userList.add(u1);
+//        userList.add(u2);
+//
+//        String userListStr = JsonUtil.obj2StringPretty(userList);
+//
+//        log.info("==================");
+//
+//        log.info(userListStr);
+//
+//
+//        List<User> userListObj1 = JsonUtil.string2Obj(userListStr, new TypeReference<List<User>>() {
+//        });
+//
+//
+//        List<User> userListObj2 = JsonUtil.string2Obj(userListStr,List.class,User.class);
+
+        System.out.println("end");
+
+    }
     /**
      * 将json数据转换成pojo对象list
      * <p>Title: jsonToList</p>
@@ -58,15 +168,5 @@ public class JsonUtils {
      * @param beanType
      * @return
      */
-    public static <T> List<T> jsonToList(String jsonData, Class<T> beanType) {
-        JavaType javaType = MAPPER.getTypeFactory().constructParametricType(List.class, beanType);
-        try {
-            List<T> list = MAPPER.readValue(jsonData, javaType);
-            return list;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        return null;
-    }
 }

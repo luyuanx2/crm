@@ -11,7 +11,9 @@ import java.util.stream.Collectors;
  */
 public class YYUtil {
 
-    public final static String[] word = {
+    public static final String STANDARD_FORMAT = "yyyy-MM-dd HH:mm:ss";
+
+    private final static String[] word = {
             "a", "b", "c", "d", "e", "f", "g",
             "h", "j", "k", "m", "n",
             "p", "q", "r", "s", "t",

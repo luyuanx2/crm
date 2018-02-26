@@ -10,6 +10,7 @@ import com.yy.crm.service.mapper.SysUserMapper;
 import com.yy.crm.service.model.SysDept;
 import com.yy.crm.service.param.DeptParam;
 import com.yy.crm.service.service.SysDeptService;
+import com.yy.crm.service.service.SysLogService;
 import com.yy.crm.service.service.base.BaseService;
 import com.yy.crm.utils.IpUtil;
 import com.yy.crm.utils.LevelUtil;
@@ -31,6 +32,8 @@ public class SysDeptServiceImpl extends BaseService<SysDept> implements SysDeptS
     private SysDeptMapper sysDeptMapper;
     @Autowired
     private SysUserMapper sysUserMapper;
+    @Autowired
+    private SysLogService sysLogService;
 
     @Override
     public Integer save(DeptParam param) {
@@ -48,8 +51,8 @@ public class SysDeptServiceImpl extends BaseService<SysDept> implements SysDeptS
         sysDept.setOperator(RequestHolder.getCurrentUser().getUsername());
         sysDept.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         sysDept.setOperateTime(LocalDateTime.now());
-        this.saveSelective(sysDept);
-        //sysLogService.saveDeptLog(null, dept);
+        sysDeptMapper.insertSelective(sysDept);
+        sysLogService.saveDeptLog(null, sysDept);
         return sysDept.getId();
     }
 
@@ -72,7 +75,7 @@ public class SysDeptServiceImpl extends BaseService<SysDept> implements SysDeptS
         after.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         after.setOperateTime(LocalDateTime.now());
         updateWithChild(before,after);
-        //sysLogService.saveDeptLog(before, after);
+        sysLogService.saveDeptLog(before, after);
     }
 
     @Override

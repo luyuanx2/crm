@@ -10,6 +10,7 @@ import com.yy.crm.service.mapper.SysRoleMapper;
 import com.yy.crm.service.model.SysRole;
 import com.yy.crm.service.param.PageQuery;
 import com.yy.crm.service.param.RoleParam;
+import com.yy.crm.service.service.SysLogService;
 import com.yy.crm.service.service.SysRoleService;
 import com.yy.crm.service.service.base.BaseService;
 import com.yy.crm.utils.IpUtil;
@@ -27,6 +28,8 @@ public class SysRoleServiceImpl extends BaseService<SysRole> implements SysRoleS
 
     @Autowired
     private SysRoleMapper sysRoleMapper;
+    @Autowired
+    private SysLogService sysLogService;
     @Override
     public void save(RoleParam param) {
         BeanValidator.check(param);
@@ -40,7 +43,7 @@ public class SysRoleServiceImpl extends BaseService<SysRole> implements SysRoleS
         role.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         role.setOperateTime(LocalDateTime.now());
         sysRoleMapper.insertSelective(role);
-//        sysLogService.saveRoleLog(null, role);
+        sysLogService.saveRoleLog(null, role);
     }
 
     @Override
@@ -59,7 +62,7 @@ public class SysRoleServiceImpl extends BaseService<SysRole> implements SysRoleS
         after.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         after.setOperateTime(LocalDateTime.now());
         sysRoleMapper.updateByPrimaryKeySelective(after);
-//        sysLogService.saveRoleLog(before, after);
+        sysLogService.saveRoleLog(before, after);
     }
 
     @Override

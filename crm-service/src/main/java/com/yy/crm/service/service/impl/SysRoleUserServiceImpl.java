@@ -7,6 +7,7 @@ import com.yy.crm.service.mapper.SysRoleUserMapper;
 import com.yy.crm.service.mapper.SysUserMapper;
 import com.yy.crm.service.model.SysRoleUser;
 import com.yy.crm.service.model.SysUser;
+import com.yy.crm.service.service.SysLogService;
 import com.yy.crm.service.service.SysRoleUserService;
 import com.yy.crm.service.service.base.BaseService;
 import com.yy.crm.utils.IpUtil;
@@ -27,6 +28,8 @@ public class SysRoleUserServiceImpl extends BaseService<SysRoleUser> implements 
 
     @Autowired
     private SysRoleUserMapper sysRoleUserMapper;
+    @Autowired
+    private SysLogService sysLogService;
     @Autowired
     private SysUserMapper sysUserMapper;
 
@@ -51,7 +54,7 @@ public class SysRoleUserServiceImpl extends BaseService<SysRoleUser> implements 
             }
         }
         updateRoleUsers(roleId, userIdList);
-//        saveRoleUserLog(roleId, originUserIdList, userIdList);
+        sysLogService.saveRoleUserLog(roleId, originUserIdList, userIdList);
     }
 
     @Transactional
@@ -69,4 +72,5 @@ public class SysRoleUserServiceImpl extends BaseService<SysRoleUser> implements 
         }
         sysRoleUserMapper.batchInsert(roleUserList);
     }
+
 }
