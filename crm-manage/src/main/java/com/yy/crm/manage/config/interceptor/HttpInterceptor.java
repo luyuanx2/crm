@@ -21,7 +21,7 @@ public class HttpInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String url = request.getRequestURI();
         Map parameterMap = request.getParameterMap();
-        log.info("request start. url:{}, params:{}", url, JsonUtils.objectToJson(parameterMap));
+        log.info("request start. url:{}, params:{}", url, JsonUtils.obj2String(parameterMap));
         long start = System.currentTimeMillis();
         request.setAttribute(START_TIME, start);
         return true;

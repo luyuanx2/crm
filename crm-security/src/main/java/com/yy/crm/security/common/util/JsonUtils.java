@@ -11,7 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by luyuanyuan on 2017/11/7.
@@ -113,14 +115,24 @@ public class JsonUtils {
 
 
     public static void main(String[] args) {
-//        User user = new User();
-//        user.setId(2);
-//        user.setEmail("geely@happymmall.com");
-//        user.setCreateTime(new Date());
-//        String userJsonPretty = JsonUtil.obj2StringPretty(user);
-//        log.info("userJson:{}",userJsonPretty);
+        Map map = new HashMap<>();
+        map.put("id",23);
+        map.put("name","greely");
+        map.put("email","geely@happymmall.com");
+        map.put("mobile","15675504080");
+        map.put("age",18);
+        map.put("operatorTime","2018-2-18 14:21");
+        String userJsonPretty = JsonUtils.obj2StringPretty(map);
+        log.info("userJson:{}",userJsonPretty);
 
-
+        String a = "{\n" +
+                "  \"operatorTime\" : \"2018-2-18 14:21\",\n" +
+                "  \"name\" : \"greely\",\n" +
+                "  \"mobile\" : \"15675504080\",\n" +
+                "  \"id\" : 23,\n" +
+                "  \"email\" : \"geely@happymmall.com\",\n" +
+                "  \"age\" : 18\n" +
+                "}";
 //        User u2 = new User();
 //        u2.setId(2);
 //        u2.setEmail("geelyu2@happymmall.com");
@@ -159,14 +171,5 @@ public class JsonUtils {
         System.out.println("end");
 
     }
-    /**
-     * 将json数据转换成pojo对象list
-     * <p>Title: jsonToList</p>
-     * <p>Description: </p>
-     *
-     * @param jsonData
-     * @param beanType
-     * @return
-     */
 
 }
