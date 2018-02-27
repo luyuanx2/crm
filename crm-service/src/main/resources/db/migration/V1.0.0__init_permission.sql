@@ -120,7 +120,19 @@ CREATE TABLE `sys_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
-insert into sys_dept (name, level,operator,operate_ip) values('部门列表','0','system','192.168.1.1');
-insert into sys_dept (name, level,operator,operate_ip) values('技术部','0.1','system','192.168.1.1');
-insert into sys_user (username, telephone, mail, password, dept_id, status,operator,operate_ip) values('admin','15675504181', '694436921@qq.com', '$2a$10$J3MRsSnmdp/0bW7FE2MMGeoMrI4XdTYJdSWebusywDEsuGs0dshdS',1, 1,'system','192.168.1.1');
+INSERT INTO `sys_dept` VALUES ('1', '部门列表', '0', '0', '0', '', 'system', '2018-02-27 13:41:50', '192.168.1.1');
+INSERT INTO `sys_dept` VALUES ('2', '总经理室', '1', '0.1', '1', '', 'admin', '2018-02-27 13:47:20', '127.0.0.1');
+INSERT INTO `sys_dept` VALUES ('3', '技术部', '1', '0.1', '2', '技术部备注', 'admin', '2018-02-27 13:47:46', '127.0.0.1');
+INSERT INTO `sys_dept` VALUES ('4', '前端开发', '3', '0.1.3', '1', '前端开发备注', 'admin', '2018-02-27 13:48:05', '127.0.0.1');
+INSERT INTO `sys_dept` VALUES ('5', '后端开发', '3', '0.1.3', '2', '后端开发备注', 'admin', '2018-02-27 13:48:26', '127.0.0.1');
+INSERT INTO `sys_dept` VALUES ('6', '市场部', '1', '0.1', '3', '市场部备注', 'admin', '2018-02-27 13:48:59', '127.0.0.1');
+INSERT INTO `sys_dept` VALUES ('7', '招生部', '6', '0.1.6', '1', '招生部备注', 'admin', '2018-02-27 13:49:26', '127.0.0.1');
+INSERT INTO `sys_dept` VALUES ('8', '咨询部', '6', '0.1.6', '2', '咨询部备注', 'admin', '2018-02-27 13:49:38', '127.0.0.1');
 
+INSERT INTO `sys_user` VALUES ('1', '', 'admin', '', '15675504181', '694436921@qq.com', '$2a$10$J3MRsSnmdp/0bW7FE2MMGeoMrI4XdTYJdSWebusywDEsuGs0dshdS', '1', '1', '1', '系统管理员账号', 'system', '2018-02-27 13:41:50', '192.168.1.1');
+INSERT INTO `sys_user` VALUES ('2', '', 'zongjingli', '', '15689562563', 'zongjingli@qq.com', '$2a$10$EAsCuf/FRUf.kx4rQ381FuP6Rk4Z6OjTmVJW.k0ypboueyAv2uhP2', '2', '1', '1', '这是总经理账号', 'admin', '2018-02-27 13:51:18', '127.0.0.1');
+
+-- ----------------------------
+-- Records of sys_acl
+-- ----------------------------
+INSERT INTO `sys_acl` VALUES ('1', '', '0', '0', '菜单目录', '', '', '1', '1', '0', '菜单目录备注', 'system', '2018-02-27 13:56:44', '127.0.0.1');

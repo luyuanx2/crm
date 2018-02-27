@@ -1,17 +1,18 @@
 package com.yy.crm.manage.config;
 
-import com.yy.crm.manage.config.filter.LoginFilter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.yy.crm.manage.config.bean.LocalDateTime2LongSerializer;
 import com.yy.crm.manage.config.interceptor.HttpInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by luyuanyuan on 2017/10/20.
@@ -55,4 +56,16 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 //        filterRegistrationBean.setUrlPatterns(urls);
 //        return filterRegistrationBean;
 //    }
+
+    @Bean(name = "mapperObject")
+    public ObjectMapper getObjectMapper() {
+        ObjectMapper om = new ObjectMapper();
+        JavaTimeModule javaTimeModule = new JavaTimeModule();
+        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTime2LongSerializer());
+//        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+//        javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+//        javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        om.registerModule(javaTimeModule);
+        return om;
+    }
 }

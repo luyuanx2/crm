@@ -11,6 +11,7 @@ import com.yy.crm.service.dto.SysUserDto;
 import com.yy.crm.service.mapper.SysUserMapper;
 import com.yy.crm.service.model.SysUser;
 import com.yy.crm.service.param.PageQuery;
+import com.yy.crm.service.param.SearchUserParam;
 import com.yy.crm.service.param.SysUserParam;
 import com.yy.crm.service.service.SysLogService;
 import com.yy.crm.service.service.SysUserService;
@@ -18,6 +19,7 @@ import com.yy.crm.service.service.base.BaseService;
 import com.yy.crm.utils.IpUtil;
 import com.yy.crm.utils.MailUtil;
 import com.yy.crm.utils.YYUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -49,9 +51,9 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
         if (checkTelephoneExist(param.getTelephone(), param.getId())) {
             throw new ParamException(RbacCode.MOBILE_ALREADY_EXIST);
         }
-        if (checkEmailExist(param.getMail(), param.getId())) {
-            throw new ParamException(RbacCode.EMAIL_ALREADY_EXIST);
-        }
+//        if (checkEmailExist(param.getMail(), param.getId())) {
+//            throw new ParamException(RbacCode.EMAIL_ALREADY_EXIST);
+//        }
         String password = YYUtil.randomPassword();
         String encodePassword = passwordEncoder.encode(password);
         SysUser user = SysUser.builder().username(param.getUsername()).telephone(param.getTelephone()).mail(param.getMail())
@@ -61,7 +63,7 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
         user.setOperateTime(LocalDateTime.now());
 
         // TODO: sendEmail
-        mailUtil.sendHtmlMessage(user.getMail(),"注册成功",mailUtil.getMailCapacity(password,user.getUsername()));
+//        mailUtil.sendHtmlMessage(user.getMail(),"注册成功",mailUtil.getMailCapacity(password,user.getUsername()));
 
         this.saveSelective(user);
         sysLogService.saveUserLog(null, user);
@@ -89,14 +91,23 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
     }
 
     @Override
-    public PageInfo<SysUserDto> getPageByDeptId(Integer deptId, PageQuery pageQuery) {
+    public PageInfo<SysUserDto> getPageByDeptId(SearchUserParam param, PageQuery pageQuery) {
         BeanValidator.check(pageQuery);
         PageHelper.startPage(pageQuery.getPageNo(), pageQuery.getPageSize());
 //        SysUser sysUser = SysUser.builder().deptId(deptId).build();
         Weekend<SysUser> weekend = Weekend.of(SysUser.class);
         WeekendCriteria<SysUser, Object> criteria = weekend.weekendCriteria();
-        if(deptId != null) {
-            criteria.andEqualTo(SysUser::getDeptId,deptId);
+        if(param.getDeptId() != null) {
+            criteria.andEqualTo(SysUser::getDeptId,param.getDeptId());
+        }
+        if(param.getStatus() != null) {
+            criteria.andEqualTo(SysUser::getStatus,param.getStatus());
+        }
+        if(StringUtils.isNotBlank(param.getUsername())) {
+            criteria.andLike(SysUser::getUsername, "%" + param.getUsername() + "%");
+        }
+        if(StringUtils.isNotBlank(param.getTelephone())) {
+            criteria.andLike(SysUser::getTelephone, param.getTelephone() + "%");
         }
         List<SysUser> list = sysUserMapper.selectByExample(weekend);
 //        List<SysUser> list = this.queryListByWhere(deptId != null ? sysUser : null);

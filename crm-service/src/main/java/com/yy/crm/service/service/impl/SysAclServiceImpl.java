@@ -60,7 +60,7 @@ public class SysAclServiceImpl extends BaseService<SysAcl> implements SysAclServ
         SysAcl before = sysAclMapper.selectByPrimaryKey(param.getId());
         Preconditions.checkNotNull(before, "待更新的权限不存在");
 
-        SysAcl after = SysAcl.builder().type(param.getType()).icon(param.getIcon()).url(param.getUrl())
+        SysAcl after = SysAcl.builder().id(param.getId()).type(param.getType()).icon(param.getIcon()).url(param.getUrl())
                 .name(param.getName()).parentId(param.getParentId()).seq(param.getSeq())
                 .status(param.getStatus()).remark(param.getRemark()).build();
 
@@ -125,7 +125,7 @@ public class SysAclServiceImpl extends BaseService<SysAcl> implements SysAclServ
         if(id != null) {
             criteria.andNotEqualTo(SysAcl::getId,id);
         }
-        return sysAclMapper.selectCountByExample(criteria) > 0;
+        return sysAclMapper.selectCountByExample(weekend) > 0;
     }
 
     private String getLevel(Integer aclId) {

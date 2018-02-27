@@ -1,10 +1,17 @@
 package com.yy.crm.service.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.yy.crm.service.common.LocalDateTime2LongSerializer;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Builder
@@ -42,7 +49,7 @@ public class SysLog {
      * 最后一次更新的时间
      */
     @Column(name = "operate_time")
-    @JsonSerialize(using = LocalDateTime2LongSerializer.class)
+//    @JsonSerialize(using = LocalDateTime2LongSerializer.class)
     private LocalDateTime operateTime;
 
     /**

@@ -47,6 +47,10 @@ public class SysLogServiceImpl extends BaseService<SysLog> implements SysLogServ
     @Autowired
     private SysRoleUserService sysRoleUserService;
 
+    public static void main(String[] args) {
+        SysUser afterDept = JsonUtils.string2Obj("{\"id\":10,\"realName\":null,\"username\":\"sdfasf\",\"jobNum\":null,\"telephone\":\"15678954862\",\"mail\":\"sadf@qq.com\",\"password\":\"$2a$10$dtX1IgMhp694S2NCB1fTJO6u.L8tTv1s8nKQjoKMStJGgwnt9BxAq\",\"deptId\":2,\"status\":1,\"usable\":null,\"remark\":\"\",\"operator\":\"admin\",\"operateTime\":\"2018-02-27 11:45:15\",\"operateIp\":\"127.0.0.1\"}",SysUser.class);
+        System.out.println(afterDept);
+    }
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public void recover(int id) {
