@@ -49,7 +49,6 @@ public class SysLog {
      * 最后一次更新的时间
      */
     @Column(name = "operate_time")
-//    @JsonSerialize(using = LocalDateTime2LongSerializer.class)
     private LocalDateTime operateTime;
 
     /**

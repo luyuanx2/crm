@@ -6,19 +6,11 @@ import com.yy.crm.common.response.ServerResponse;
 import com.yy.crm.service.model.SysUser;
 import com.yy.crm.service.param.PageQuery;
 import com.yy.crm.service.param.RoleParam;
-import com.yy.crm.service.service.SysRoleAclService;
-import com.yy.crm.service.service.SysRoleService;
-import com.yy.crm.service.service.SysRoleUserService;
-import com.yy.crm.service.service.SysTreeService;
-import com.yy.crm.service.service.SysUserService;
+import com.yy.crm.service.service.*;
 import com.yy.crm.utils.YYUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -60,7 +52,7 @@ public class SysRoleController {
      * @param param
      * @return
      */
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ServerResponse updateRole(RoleParam param) {
         sysRoleService.update(param);
         return ServerResponse.createBySuccess();
@@ -94,7 +86,7 @@ public class SysRoleController {
     @GetMapping("/users")
     public ServerResponse users(@RequestParam("roleId") int roleId) {
         List<SysUser> selectedUserList = sysRoleUserService.getListByRoleId(roleId);
-        List<SysUser> allUserList = sysUserService.findByStatusAndEnable(Const.NORMAL,true);
+        List<SysUser> allUserList = sysUserService.findByStatusAndUsable(Const.Status.INVALID,true);
         Set<Integer> selectedUserIdSet = selectedUserList.stream().map(SysUser::getId).collect(Collectors.toSet());
 
         Map<String, Object> map = Maps.newHashMap();

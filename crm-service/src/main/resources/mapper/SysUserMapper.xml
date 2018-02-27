@@ -59,10 +59,10 @@
     </foreach>
   </select>
 
-  <select id="findByStatusAndEnable" parameterType="map" resultMap="BaseResultMap">
+  <select id="findByStatusAndUsable" parameterType="map" resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List" />
     FROM sys_user
-    WHERE enable = #{enable}
+    WHERE usable = #{usable}
     <if test="status != null">
       AND status != #{status}
     </if>

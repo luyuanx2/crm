@@ -23,5 +23,5 @@ public interface SysUserService {
 
     List<SysUser> getAll();
 
-    List<SysUser> findByStatusAndEnable(Integer status, Boolean enable);
+    List<SysUser> findByStatusAndUsable(Integer status, Boolean usable);
 }

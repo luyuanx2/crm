@@ -10,8 +10,11 @@ public class Const {
     public static final String EMAIL = "email";
     public static final String USERNAME = "username";
 
-    public static final Integer NORMAL = 1;
+    public interface Status {
+        Integer NORMAL = 1;
+        Integer INVALID = 0;
 
+    }
     public interface LogStatus{
         int RECOVERED = 1;
         int UN_RECOVERED = 0;

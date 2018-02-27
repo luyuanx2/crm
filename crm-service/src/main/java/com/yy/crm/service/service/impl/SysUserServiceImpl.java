@@ -129,8 +129,8 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
     }
 
     @Override
-    public List<SysUser> findByStatusAndEnable(Integer status, Boolean enable) {
-        return sysUserMapper.findByStatusAndEnable(status,enable);
+    public List<SysUser> findByStatusAndUsable(Integer status, Boolean usable) {
+        return sysUserMapper.findByStatusAndUsable(status,usable);
     }
 
     private SysUserDto assembleSysUserDto(SysUser user) {

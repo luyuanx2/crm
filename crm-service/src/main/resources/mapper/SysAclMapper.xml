@@ -22,7 +22,7 @@
   </resultMap>
 
   <sql id="Base_Column_List" >
-    id, code, name, acl_module_id, url, type, status, seq, remark, operator, operate_time,
+    id, code, name, level, parent_id, icon, url, type, status, seq, remark, operator, operate_time,
     operate_ip
   </sql>
 

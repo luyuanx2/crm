@@ -15,5 +15,5 @@ public interface SysUserMapper extends MyMapper<SysUser> {
 
     List<SysUser> getByIdList(@Param("idList") List<Integer> idList);
 
-    List<SysUser> findByStatusAndEnable(@Param("status") Integer status,@Param("enable") Boolean enable);
+    List<SysUser> findByStatusAndUsable(@Param("status") Integer status,@Param("usable") Boolean usable);
 }
