@@ -11,6 +11,27 @@
 
     <artifactId>crm-manage</artifactId>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profileActive>dev</profileActive>
+                <!--<access.log.appender>STDOUT</access.log.appender>-->
+                <access.log.appender>FILE</access.log.appender>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>pro</id>
+            <properties>
+                <profileActive>pro</profileActive>
+                <access.log.appender>FILE</access.log.appender>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencies>
         <dependency>
             <groupId>com.yy.crm</groupId>

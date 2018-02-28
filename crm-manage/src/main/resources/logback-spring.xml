@@ -1,21 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
-    <include resource="org/springframework/boot/logging/logback/base.xml" />
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!--<include resource="org/springframework/boot/logging/logback/base.xml" />-->
+
+    <springProperty scope="context" name="LOG_ERROR_PATH" source="logging.error-path"
+                    defaultValue=""/>
+    <springProperty scope="context" name="APP_NAME" source="spring.application.name"
+                    defaultValue="app-name"/>
+    <!--<contextName>${APP_NAME}</contextName>-->
+    <!-- 控制台彩色打印 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex"
+                    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx"
+                    converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+
+    <!-- 控制台输出格式 -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <!-- 写入文件格式 -->
+    <property name="FILE_LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
+    <!--<springProfile name="dev,test">-->
+        <!--<property name="LOG_PATH" value="f:/${APP_NAME}/logs/"/>-->
+        <!--<property name="ERROR_LOG_FILE" value="f:/${APP_NAME}/"/>-->
+    <!--</springProfile>-->
+    <!--<springProfile name="pro">-->
+        <!--<property name="LOG_PATH" value="/home/${APP_NAME}/logs/"/>-->
+        <!--<property name="ERROR_LOG_FILE" value="/home/${APP_NAME}/"/>-->
+    <!--</springProfile>-->
+    <!--<property name="LOG_FILE" value="/data/logs/${APP_NAME}"/>-->
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="CRM" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/${APP_NAME}.log</file>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>10MB</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_ERROR_PATH}/error.log</file>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>10MB</MaxFileSize>
+        </triggeringPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
     <logger name="org.springframework.web" level="INFO"/>
     <logger name="org.springboot.sample" level="TRACE" />
 
     <!-- 开发、测试环境 -->
-    <springProfile name="dev,test">
-        <logger name="org.springframework.web" level="INFO"/>
-        <logger name="org.springboot.sample" level="INFO" />
-        <logger name="com.yy.crm" level="DEBUG" />
-    </springProfile>
+    <!--<springProfile name="dev,test">-->
+        <!--<logger name="org.springframework.web" level="INFO"/>-->
+        <!--<logger name="org.springboot.sample" level="INFO" />-->
+        <!--<logger name="com.yy.crm" level="DEBUG" />-->
+    <!--</springProfile>-->
 
     <!-- 生产环境 -->
+    <!--<springProfile name="pro">-->
+        <!--<logger name="org.springframework.web" level="ERROR"/>-->
+        <!--<logger name="org.springboot.sample" level="ERROR" />-->
+        <!--<logger name="com.yy.crm" level="ERROR" />-->
+    <!--</springProfile>-->
+
+    <springProfile name="dev,test">
+        <!--<logger name="org.springframework.web" level="INFO"/>-->
+        <!--<logger name="org.springboot.sample" level="INFO" />-->
+
+        <logger name="com.yy.crm" additivity="false" level="DEBUG" >
+            <appender-ref ref="CRM" />
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="ERROR"/>
+        </logger>
+        <root level="DEBUG">
+            <appender-ref ref="CONSOLE" />
+            <appender-ref ref="ERROR" />
+        </root>
+    </springProfile>
+
     <springProfile name="pro">
         <logger name="org.springframework.web" level="ERROR"/>
         <logger name="org.springboot.sample" level="ERROR" />
-        <logger name="com.yy.crm" level="ERROR" />
+        <logger name="com.yy.crm" additivity="false" level="INFO" >
+            <appender-ref ref="CRM" />
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="ERROR"/>
+        </logger>
+        <root level="INFO">
+            <appender-ref ref="CONSOLE" />
+            <appender-ref ref="ERROR" />
+        </root>
     </springProfile>
 
 </configuration>

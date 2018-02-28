@@ -20,8 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.weekend.Weekend;
 import tk.mybatis.mapper.weekend.WeekendCriteria;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author 鲁源源 on 2018/2/4.
@@ -44,6 +47,7 @@ public class SysAclServiceImpl extends BaseService<SysAcl> implements SysAclServ
                 .name(param.getName()).parentId(param.getParentId()).seq(param.getSeq())
                 .status(param.getStatus()).remark(param.getRemark()).build();
         acl.setLevel(LevelUtil.calculateLevel(getLevel(param.getParentId()), param.getParentId()));
+        acl.setCode(generateCode());
         acl.setOperator(RequestHolder.getCurrentUser().getUsername());
         acl.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         acl.setOperateTime(LocalDateTime.now());
@@ -135,4 +139,10 @@ public class SysAclServiceImpl extends BaseService<SysAcl> implements SysAclServ
         }
         return acl.getLevel();
     }
+
+    private String generateCode() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        return dateFormat.format(new Date()) + "_" + new Random().nextInt(100);
+    }
+
 }

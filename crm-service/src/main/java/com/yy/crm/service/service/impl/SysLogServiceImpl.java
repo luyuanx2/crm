@@ -9,8 +9,16 @@ import com.yy.crm.security.common.exception.ParamException;
 import com.yy.crm.security.common.util.BeanValidator;
 import com.yy.crm.security.common.util.JsonUtils;
 import com.yy.crm.service.common.RequestHolder;
-import com.yy.crm.service.mapper.*;
-import com.yy.crm.service.model.*;
+import com.yy.crm.service.mapper.SysAclMapper;
+import com.yy.crm.service.mapper.SysDeptMapper;
+import com.yy.crm.service.mapper.SysLogMapper;
+import com.yy.crm.service.mapper.SysRoleMapper;
+import com.yy.crm.service.mapper.SysUserMapper;
+import com.yy.crm.service.model.SysAcl;
+import com.yy.crm.service.model.SysDept;
+import com.yy.crm.service.model.SysLog;
+import com.yy.crm.service.model.SysRole;
+import com.yy.crm.service.model.SysUser;
 import com.yy.crm.service.param.PageQuery;
 import com.yy.crm.service.param.SearchLogParam;
 import com.yy.crm.service.service.SysLogService;
@@ -47,10 +55,6 @@ public class SysLogServiceImpl extends BaseService<SysLog> implements SysLogServ
     @Autowired
     private SysRoleUserService sysRoleUserService;
 
-    public static void main(String[] args) {
-        SysUser afterDept = JsonUtils.string2Obj("{\"id\":10,\"realName\":null,\"username\":\"sdfasf\",\"jobNum\":null,\"telephone\":\"15678954862\",\"mail\":\"sadf@qq.com\",\"password\":\"$2a$10$dtX1IgMhp694S2NCB1fTJO6u.L8tTv1s8nKQjoKMStJGgwnt9BxAq\",\"deptId\":2,\"status\":1,\"usable\":null,\"remark\":\"\",\"operator\":\"admin\",\"operateTime\":\"2018-02-27 11:45:15\",\"operateIp\":\"127.0.0.1\"}",SysUser.class);
-        System.out.println(afterDept);
-    }
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public void recover(int id) {

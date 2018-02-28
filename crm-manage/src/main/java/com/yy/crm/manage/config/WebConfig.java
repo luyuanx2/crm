@@ -1,10 +1,13 @@
 package com.yy.crm.manage.config;
 
+import ch.qos.logback.access.servlet.TeeFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.yy.crm.manage.config.bean.LocalDateTime2LongSerializer;
 import com.yy.crm.manage.config.interceptor.HttpInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
@@ -12,7 +15,6 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * Created by luyuanyuan on 2017/10/20.
@@ -67,5 +69,28 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 //        javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern("HH:mm:ss")));
         om.registerModule(javaTimeModule);
         return om;
+    }
+
+    /**
+     * Tee filter tee filter.
+     *
+     * @return the tee filter
+     */
+    @Bean
+    @ConditionalOnProperty(prefix = "server.tomcat.accesslog", name = "debug", havingValue = "true")
+    public TeeFilter teeFilter() {
+        //复制请求响应流，用于打印调试日志
+        return new TeeFilter();
+    }
+
+    /**
+     * Container customizer embedded servlet container customizer.
+     *
+     * @return the embedded servlet container customizer
+     */
+    @Bean
+    @ConditionalOnProperty(prefix = "server.tomcat.accesslog", name = "debug", havingValue = "true")
+    public EmbeddedServletContainerCustomizer containerCustomizer() {
+        return new ContainerAccessLogCustomizer("logback-access.xml");
     }
 }

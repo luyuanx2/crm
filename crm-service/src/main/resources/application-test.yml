@@ -10,3 +10,10 @@ spring:
 # 配置日志打印信息
 #logging.level.root=INFO
 #logging.level.com.itmuch=DEBUG
+mybatis:
+    xmlLocation: classpath:mapper/**/*.xml
+    type-aliases-package: com.yy.crm.service.model
+
+mapper:
+    basepackage: com.yy.crm.service.mapper
+    mappers: com.yy.crm.service.common.MyMapper
