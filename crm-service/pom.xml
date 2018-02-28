@@ -132,7 +132,7 @@
                 <version>${flyway.version}</version>
                 <configuration>
                     <driver>com.mysql.jdbc.Driver</driver>
-                    <url>jdbc:mysql://106.14.156.240:3306/crm?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true</url>
+                    <url>jdbc:mysql://localhost:3306/crm?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true</url>
                     <user>${env.MYSQL_CRM_USERNAME}</user>
                     <password>${env.MYSQL_CRM_PASSWORD}</password>
                 </configuration>
