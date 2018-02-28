@@ -135,7 +135,7 @@
                 </executions>
             </plugin>
         </plugins>
-        <finalName>manage</finalName>
+        <finalName>crm-manage</finalName>
     </build>
 
 </project>
