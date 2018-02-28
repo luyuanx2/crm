@@ -34,6 +34,10 @@ public class LoginFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
         String header = req.getHeader("Authorization");
+        if(header == null) { //swagger-ui druid监控 放行
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
         String token = StringUtils.substringAfter(header, "bearer ");
         //todo 从token中解析出用户
         Claims claims = jwtUtils.getClaimByToken(token);

@@ -11,12 +11,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.social.security.SpringSocialConfigurer;
-
-import javax.servlet.Filter;
 
 
 /**
@@ -50,11 +47,11 @@ public class MyResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private AuthorizeConfigManager authorizeConfigManager;
 
-    @Autowired
-    private Filter loginFilter;
+    //@Autowired
+    //private Filter loginFilter;
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.addFilterAfter(loginFilter, FilterSecurityInterceptor.class)
+        http//.addFilterAfter(loginFilter, FilterSecurityInterceptor.class)
                 .formLogin()
                 .loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
                 .loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM)

@@ -16,8 +16,7 @@
             <id>dev</id>
             <properties>
                 <profileActive>dev</profileActive>
-                <!--<access.log.appender>STDOUT</access.log.appender>-->
-                <access.log.appender>FILE</access.log.appender>
+                <access.log.appender>STDOUT</access.log.appender>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>

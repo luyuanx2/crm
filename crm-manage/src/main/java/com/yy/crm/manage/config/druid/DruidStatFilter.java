@@ -8,6 +8,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.annotation.WebInitParam;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebFilter(filterName = "druidWebStatFilter", urlPatterns = "/*",
@@ -19,7 +20,9 @@ public class DruidStatFilter extends WebStatFilter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        response.setContentType("text/html");
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        httpServletResponse.setContentType("text/html");
+        httpServletResponse.setHeader("X-Frame-Options", "SAMEORIGIN");
         super.doFilter(request, response, chain);
     }
 
