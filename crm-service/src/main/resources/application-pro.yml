@@ -1,5 +1,6 @@
-#logging:
-#    file: /home/crm/crm.log
+logging:
+    path: /home/crm/crm-manage/logs/
+    error-path: /home/crm/crm-manage/
 spring:
     datasource:
         name: pro
