@@ -73,6 +73,11 @@ public class SysRoleServiceImpl extends BaseService<SysRole> implements SysRoleS
         return new PageInfo<>(list);
     }
 
+    @Override
+    public void delete(int roleId) {
+
+    }
+
     private boolean checkExist(String name, Integer id) {
         return sysRoleMapper.countByName(name, id) > 0;
     }

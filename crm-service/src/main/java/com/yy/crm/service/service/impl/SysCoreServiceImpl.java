@@ -70,7 +70,6 @@ public class SysCoreServiceImpl implements SysCoreService {
                     urls.add(item.getUrl());
                 }
             });
-
             if (CollectionUtils.isNotEmpty(urls)) {
                 redisCacheService.setEx(generateCacheKey(Const.CacheKey.USER_ACLS,String.valueOf(userId)), JsonUtils.obj2String(urls), 600);
             }

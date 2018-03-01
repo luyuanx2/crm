@@ -120,4 +120,11 @@ public class SysRoleController {
         sysRoleUserService.changeRoleUsers(roleId, userIdList);
         return ServerResponse.createBySuccess();
     }
+
+
+    @DeleteMapping("/delete")
+    public ServerResponse changeUsers(@RequestParam("roleId") int roleId) {
+        sysRoleService.delete(roleId);
+        return ServerResponse.createBySuccess();
+    }
 }

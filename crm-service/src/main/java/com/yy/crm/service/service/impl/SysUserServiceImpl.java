@@ -97,6 +97,7 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
 //        SysUser sysUser = SysUser.builder().deptId(deptId).build();
         Weekend<SysUser> weekend = Weekend.of(SysUser.class);
         WeekendCriteria<SysUser, Object> criteria = weekend.weekendCriteria();
+        criteria.andEqualTo(SysUser::getUsable,true);
         if(param.getDeptId() != null) {
             criteria.andEqualTo(SysUser::getDeptId,param.getDeptId());
         }
@@ -131,6 +132,13 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
     @Override
     public List<SysUser> findByStatusAndUsable(Integer status, Boolean usable) {
         return sysUserMapper.findByStatusAndUsable(status,usable);
+    }
+
+    @Override
+    public void delete(int id) {
+        SysUser sysUser = this.queryById(id);
+        Preconditions.checkNotNull(sysUser, "待删除的用户不存在，无法删除");
+        sysUserMapper.updateByPrimaryKeySelective(SysUser.builder().id(id).usable(false).build());
     }
 
     private SysUserDto assembleSysUserDto(SysUser user) {

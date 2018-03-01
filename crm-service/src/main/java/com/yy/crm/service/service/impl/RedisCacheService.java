@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisCacheService implements BaseCacheService {
 
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate<Object, Object> redisTemplate;
 
     @Override
     public void set(String key, String value) {

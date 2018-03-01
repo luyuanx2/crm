@@ -13,12 +13,13 @@ import org.springframework.stereotype.Component;
 @Order(Integer.MIN_VALUE)
 public class ManageAuthrizeConfigProvider implements AuthorizeConfigProvider {
     @Override
-    public void config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
+    public boolean config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
         config.antMatchers(
                 "/sys/user/regist","/social/signUp","/druid/**","/v2/api-docs",
                 "/swagger-resources/configuration/ui", "/swagger-resources",
                 "/swagger-resources/configuration/security",
                 "/swagger-ui.html","/redirect"
         ).permitAll();
+        return false;
     }
 }

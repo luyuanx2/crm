@@ -20,7 +20,22 @@ public class MyAuthorizeConfigManager implements AuthorizeConfigManager {
 
     @Override
     public void config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
-        authorizeConfigProviders.forEach(authorizeConfigProvider -> authorizeConfigProvider.config(config));
-        config.anyRequest().authenticated();
+        boolean existAnyRequestConfig = false;
+        String existAnyRequestConfigName = null;
+
+        for (AuthorizeConfigProvider authorizeConfigProvider : authorizeConfigProviders) {
+            boolean currentIsAnyRequestConfig = authorizeConfigProvider.config(config);
+            if (existAnyRequestConfig && currentIsAnyRequestConfig) {
+                throw new RuntimeException("重复的anyRequest配置:" + existAnyRequestConfigName + ","
+                        + authorizeConfigProvider.getClass().getSimpleName());
+            } else if (currentIsAnyRequestConfig) {
+                existAnyRequestConfig = true;
+                existAnyRequestConfigName = authorizeConfigProvider.getClass().getSimpleName();
+            }
+        }
+
+        if(!existAnyRequestConfig){
+            config.anyRequest().authenticated();
+        }
     }
 }

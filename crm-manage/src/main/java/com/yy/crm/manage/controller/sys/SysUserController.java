@@ -15,11 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.connect.web.ProviderSignInUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -82,6 +78,12 @@ public class SysUserController {
     public ServerResponse list(SearchUserParam param, PageQuery pageQuery) {
         PageInfo<SysUserDto> result = sysUserService.getPageByDeptId(param, pageQuery);
         return ServerResponse.createBySuccess(result);
+    }
+
+    @DeleteMapping("/delete")
+    public ServerResponse delete(@RequestParam("id") int id) {
+        sysUserService.delete(id);
+        return ServerResponse.createBySuccess();
     }
 
 }

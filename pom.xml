@@ -111,7 +111,6 @@
                     <include>**/application*.yml</include>
                     <include>**/*.properties</include>
                     <include>**/*.xml</include>
-                    <include>**/*.sql</include>
                 </includes>
             </resource>
             <resource>
@@ -120,7 +119,6 @@
                     <exclude>**/application*.yml</exclude>
                     <exclude>**/*.properties</exclude>
                     <exclude>**/*.xml</exclude>
-                    <exclude>**/*.sql</exclude>
                 </excludes>
             </resource>
         </resources>

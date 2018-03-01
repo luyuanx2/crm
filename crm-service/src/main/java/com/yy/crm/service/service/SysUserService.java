@@ -24,4 +24,6 @@ public interface SysUserService {
     List<SysUser> getAll();
 
     List<SysUser> findByStatusAndUsable(Integer status, Boolean usable);
+
+    void delete(int id);
 }

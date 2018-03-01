@@ -15,4 +15,6 @@ public interface SysRoleService {
     void update(RoleParam param);
 
     PageInfo<SysRole> getAll(PageQuery pageQuery);
+
+    void delete(int roleId);
 }
