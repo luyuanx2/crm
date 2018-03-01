@@ -7,6 +7,8 @@ public class Const {
 
     public static final String CURRENT_USER = "currentUser";
 
+    public static final String ADMIN = "admin";
+
     public static final String EMAIL = "email";
     public static final String USERNAME = "username";
 
@@ -24,6 +26,14 @@ public class Const {
     }
     public interface Acl{
         Integer BOTTON = 3; //按钮
+    }
+
+    public enum CacheKey {
+
+        SYSTEM_ACLS,
+
+        USER_ACLS;
+
     }
 
 }

@@ -12,4 +12,6 @@ public interface SysCoreService {
     List<SysAcl> getCurrentUserAclList();
 
     List<SysAcl> getRoleAclList(int roleId);
+
+    List<String> getCurrentUserAclUrlListFromCache();
 }

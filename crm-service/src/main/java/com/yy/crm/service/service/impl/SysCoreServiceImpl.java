@@ -1,17 +1,23 @@
 package com.yy.crm.service.service.impl;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.yy.crm.common.Const;
+import com.yy.crm.security.common.util.JsonUtils;
 import com.yy.crm.service.common.RequestHolder;
 import com.yy.crm.service.mapper.SysAclMapper;
 import com.yy.crm.service.mapper.SysRoleAclMapper;
 import com.yy.crm.service.mapper.SysRoleUserMapper;
 import com.yy.crm.service.model.SysAcl;
 import com.yy.crm.service.model.SysUser;
+import com.yy.crm.service.service.BaseCacheService;
 import com.yy.crm.service.service.SysCoreService;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +32,8 @@ public class SysCoreServiceImpl implements SysCoreService {
     private SysRoleAclMapper sysRoleAclMapper;
     @Autowired
     private SysAclMapper sysAclMapper;
+    @Autowired
+    private BaseCacheService redisCacheService;
 
     @Override
     public List<SysAcl> getCurrentUserAclList() {
@@ -40,6 +48,35 @@ public class SysCoreServiceImpl implements SysCoreService {
             return Lists.newArrayList();
         }
         return sysAclMapper.getByIdList(aclIdList);
+    }
+
+    private String generateCacheKey(Const.CacheKey prefix, String... keys) {
+        String key = prefix.name();
+        if (keys != null && keys.length > 0) {
+            key += "_" + Joiner.on("_").join(keys);
+        }
+        return key;
+    }
+
+    @Override
+    public List<String> getCurrentUserAclUrlListFromCache() {
+        int userId = RequestHolder.getCurrentUser().getId();
+        String cacheValue = redisCacheService.get(generateCacheKey(Const.CacheKey.USER_ACLS,String.valueOf(userId)));
+        if (StringUtils.isBlank(cacheValue)) {
+
+            List<String> urls = new ArrayList<>();
+            getCurrentUserAclList().forEach(item -> {
+                if (item.getStatus() == 0 && Const.Acl.BOTTON.equals(item.getType())) {
+                    urls.add(item.getUrl());
+                }
+            });
+
+            if (CollectionUtils.isNotEmpty(urls)) {
+                redisCacheService.setEx(generateCacheKey(Const.CacheKey.USER_ACLS,String.valueOf(userId)), JsonUtils.obj2String(urls), 600);
+            }
+            return urls;
+        }
+        return JsonUtils.string2List(cacheValue, String.class);
     }
 
     private List<SysAcl> getUserAclList(int userId) {
