@@ -16,8 +16,7 @@
             <id>dev</id>
             <properties>
                 <profileActive>dev</profileActive>
-                <!--<access.log.appender>STDOUT</access.log.appender>-->
-                <access.log.appender>FILE</access.log.appender>
+                <access.log.appender>STDOUT</access.log.appender>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -136,7 +135,7 @@
                 </executions>
             </plugin>
         </plugins>
-        <finalName>manage</finalName>
+        <finalName>crm-manage</finalName>
     </build>
 
 </project>

@@ -22,6 +22,10 @@ import java.time.LocalDateTime;
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
 
+    private static final String[] excludeUrls = {"/sys/user/regist","/social/signUp","/druid/**","/v2/api-docs",
+            "/swagger-resources/configuration/ui", "/swagger-resources",
+            "/swagger-resources/configuration/security",
+            "/swagger-ui.html","/redirect"};
     private final HttpInterceptor httpInterceptor;
 
     @Autowired
@@ -48,16 +52,16 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(httpInterceptor);//.addPathPatterns();
     }
 
-//    @Bean
-//    public FilterRegistrationBean loginFilter(){
-//        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-//        LoginFilter loginFilter = new LoginFilter();
-//        filterRegistrationBean.setFilter(loginFilter);
-//        List<String> urls = new ArrayList<>();
-//        urls.add("/*");
-//        filterRegistrationBean.setUrlPatterns(urls);
-//        return filterRegistrationBean;
-//    }
+    //@Bean
+    //public FilterRegistrationBean loginFilter(){
+    //    FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+    //    LoginFilter loginFilter = new LoginFilter();
+    //    filterRegistrationBean.setFilter(loginFilter);
+    //    //List<String> urls = new ArrayList<>();
+    //    //urls.add("/*");
+    //    filterRegistrationBean.addUrlPatterns(excludeUrls);
+    //    return filterRegistrationBean;
+    //}
 
     @Bean(name = "mapperObject")
     public ObjectMapper getObjectMapper() {
