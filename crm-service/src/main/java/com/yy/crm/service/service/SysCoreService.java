@@ -9,9 +9,9 @@ import java.util.List;
  */
 public interface SysCoreService {
 
-    List<SysAcl> getCurrentUserAclList(int userId);
+    List<SysAcl> getCurrentUserAclList();
 
     List<SysAcl> getRoleAclList(int roleId);
 
-    List<String> getCurrentUserAclUrlListFromCache(int userId);
+    List<String> getCurrentUserAclUrlListFromCache();
 }

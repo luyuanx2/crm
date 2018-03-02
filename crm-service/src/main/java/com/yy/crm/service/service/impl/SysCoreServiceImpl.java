@@ -36,7 +36,8 @@ public class SysCoreServiceImpl implements SysCoreService {
     private BaseCacheService redisCacheService;
 
     @Override
-    public List<SysAcl> getCurrentUserAclList(int userId) {
+    public List<SysAcl> getCurrentUserAclList() {
+        int userId = RequestHolder.getCurrentUser().getId();
         return getUserAclList(userId);
     }
 
@@ -58,13 +59,12 @@ public class SysCoreServiceImpl implements SysCoreService {
     }
 
     @Override
-    public List<String> getCurrentUserAclUrlListFromCache(int userId) {
-//        int userId = RequestHolder.getCurrentUser().getId();
+    public List<String> getCurrentUserAclUrlListFromCache() {
+        int userId = RequestHolder.getCurrentUser().getId();
         String cacheValue = redisCacheService.get(generateCacheKey(Const.CacheKey.USER_ACLS,String.valueOf(userId)));
         if (StringUtils.isBlank(cacheValue)) {
-
             List<String> urls = new ArrayList<>();
-            getCurrentUserAclList(userId).forEach(item -> {
+            getCurrentUserAclList().forEach(item -> {
                 if (item.getStatus() == 1 && Const.Acl.BOTTON.equals(item.getType())) {
                     urls.add(item.getUrl());
                 }
