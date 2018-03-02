@@ -57,7 +57,7 @@ public class CommonController {
             return new ResponseEntity<>("项目启动错误，错误信息："+shellResult.getErrorInfoList().toString(), headers, HttpStatus.OK);
         }
 
-        System.out.println("aaaaaaaaaa");
+        System.out.println("aaaaaaaaaaaaa");
         System.out.println(shellResult.getErrorInfoList().toString()+"============="+shellResult.getStdInfoList().toString());
 
         int bytes = payload.getBytes().length;
