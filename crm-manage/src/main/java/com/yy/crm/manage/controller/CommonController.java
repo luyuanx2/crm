@@ -7,6 +7,7 @@ import com.yy.crm.utils.YYUtil;
 import com.yy.crm.utils.shell.ShellResult;
 import com.yy.crm.utils.shell.ShellUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * @author luyuanyuan on 2018/3/2.
@@ -34,20 +34,21 @@ public class CommonController {
     @Autowired
     private MailUtil mailUtil;
 
-    public static void main(String[] args) {
-        System.out.println(Arrays.toString("c8ef7791d423bbf664f5fc006efac4755f256fed".getBytes()));
-        System.out.println(YYUtil.encode("lyy"));
-
-//        signature = 'sha1=' + hmac.new(APP_KEY, request.body, hashlib.sha1).hexdigest()
-//        if signature == request.META.get('HTTP_X_HUB_SIGNATURE'):
-//        do_something()
-    }
+//    public static void main(String[] args) {
+//        System.out.println(Arrays.toString("c8ef7791d423bbf664f5fc006efac4755f256fed".getBytes()));
+//        System.out.println(YYUtil.encode("lyy"));
+//        SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(), "HmacSHA256");
+//        Mac.getInstance()
+////        signature = 'sha1=' + hmac.new(APP_KEY, request.body, hashlib.sha1).hexdigest()
+////        if signature == request.META.get('HTTP_X_HUB_SIGNATURE'):
+////        do_something()
+//    }
     @PostMapping("/pushCallback")
     public ServerResponse pushCallback(HttpServletRequest request,HttpServletResponse response,String payload ) {
         String secret = request.getHeader("X-Hub-Signature");
-
+        String system = "sha1="+YYUtil.genHMAC(payload,securityProperties.getOauth2().getJwtSigningKey());
 //        String email = "694436921@qq.com";
-        if(securityProperties.getOauth2().getJwtSigningKey().equals(secret)){
+        if(StringUtils.equals(secret,system)){
             ShellResult shellResult = ShellUtil.exceCommand("/home/crm/deploy.sh");
             if(shellResult != null && shellResult.getCode() != 0){
 //                mailUtil.sendHtmlMessage(email,"项目启动错误",shellResult.getErrorInfoList().toString());

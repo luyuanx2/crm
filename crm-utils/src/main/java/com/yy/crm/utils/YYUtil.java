@@ -1,8 +1,13 @@
 package com.yy.crm.utils;
 
 import com.google.common.base.Splitter;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
 
-import java.security.MessageDigest;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -10,6 +15,7 @@ import java.util.stream.Collectors;
 /**
  * @author luyuanyuan on 2018/1/17.
  */
+@Slf4j
 public class YYUtil {
 
     public static final String STANDARD_FORMAT = "yyyy-MM-dd HH:mm:ss";
@@ -59,36 +65,33 @@ public class YYUtil {
         return strList.stream().map(Integer::parseInt).collect(Collectors.toList());
     }
 
-    private static final char[] HEX_DIGITS = {'0', '1', '2', '3', '4', '5',
-            '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
-
     /**
-     * Takes the raw bytes from the digest and formats them correct.
-     *
-     * @param bytes the raw bytes from the digest.
-     * @return the formatted bytes.
+     * HMACSHA1 加密算法
+     * @param data
+     * @param key
+     * @return
      */
-    private static String getFormattedText(byte[] bytes) {
-        int len = bytes.length;
-        StringBuilder buf = new StringBuilder(len * 2);
-        // 把密文转换成十六进制的字符串形式
-        for (int j = 0; j < len; j++) {
-            buf.append(HEX_DIGITS[(bytes[j] >> 4) & 0x0f]);
-            buf.append(HEX_DIGITS[bytes[j] & 0x0f]);
-        }
-        return buf.toString();
-    }
+    public static String genHMAC(String data, String key) {
 
-    public static String encode(String str) {
-        if (str == null) {
-            return null;
-        }
+        byte[] result = null;
         try {
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA1");
-            messageDigest.update(str.getBytes());
-            return getFormattedText(messageDigest.digest());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            //根据给定的字节数组构造一个密钥,第二参数指定一个密钥算法的名称
+            SecretKeySpec signinKey = new SecretKeySpec(key.getBytes(), "HmacSHA1");
+            //生成一个指定 Mac 算法 的 Mac 对象
+            Mac mac = Mac.getInstance("HmacSHA1");
+            //用给定密钥初始化 Mac 对象
+            mac.init(signinKey);
+            //完成 Mac 操作
+            byte[] rawHmac = mac.doFinal(data.getBytes());
+            result = Base64.encodeBase64(rawHmac);
+
+        } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+            log.error("YYUtil error menthod is genHMAC",e);
+        }
+        if (null != result) {
+            return new String(result);
+        } else {
+            return null;
         }
     }
 }
