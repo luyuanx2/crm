@@ -39,15 +39,15 @@ public class CommonController {
         if(securityProperties.getOauth2().getJwtSigningKey().equals(secret)){
             ShellResult shellResult = ShellUtil.exceCommand("/home/crm/deploy.sh");
             if(shellResult != null && shellResult.getCode() != 0){
-                mailUtil.sendHtmlMessage(email,"项目启动错误",shellResult.getErrorInfoList().toString());
+//                mailUtil.sendHtmlMessage(email,"项目启动错误",shellResult.getErrorInfoList().toString());
                 return ServerResponse.createByErrorMessage("项目启动错误，错误信息："+shellResult.getErrorInfoList().toString());
             }
             return ServerResponse.createBySuccess();
         }else {
             log.error("pushCallback secret error");
             response.setStatus(HttpStatus.FORBIDDEN.value());
-            mailUtil.sendHtmlMessage(email,"pushCallback异常","secret错误");
-            return ServerResponse.createByErrorMessage("secret错误");
+//            mailUtil.sendHtmlMessage(email,"pushCallback异常","secret错误");
+            return ServerResponse.createByErrorMessage("secret错误，错误的secret为："+secret);
         }
 
     }
