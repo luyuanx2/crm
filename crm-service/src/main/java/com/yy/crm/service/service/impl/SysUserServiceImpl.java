@@ -51,9 +51,9 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
         if (checkTelephoneExist(param.getTelephone(), param.getId())) {
             throw new ParamException(RbacCode.MOBILE_ALREADY_EXIST);
         }
-//        if (checkEmailExist(param.getMail(), param.getId())) {
-//            throw new ParamException(RbacCode.EMAIL_ALREADY_EXIST);
-//        }
+        if (checkEmailExist(param.getMail(), param.getId())) {
+            throw new ParamException(RbacCode.EMAIL_ALREADY_EXIST);
+        }
         String password = YYUtil.randomPassword();
         String encodePassword = passwordEncoder.encode(password);
         SysUser user = SysUser.builder().username(param.getUsername()).telephone(param.getTelephone()).mail(param.getMail())
@@ -63,7 +63,7 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
         user.setOperateTime(LocalDateTime.now());
 
         // TODO: sendEmail
-//        mailUtil.sendHtmlMessage(user.getMail(),"注册成功",mailUtil.getMailCapacity(password,user.getUsername()));
+        mailUtil.sendHtmlMessage(user.getMail(),"注册成功",mailUtil.getMailCapacity(password,user.getUsername()));
 
         this.saveSelective(user);
         sysLogService.saveUserLog(null, user);

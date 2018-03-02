@@ -38,18 +38,21 @@ public class LoginFilter implements Filter {
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
-        String token = StringUtils.substringAfter(header, "bearer ");
-        //todo 从token中解析出用户
-        Claims claims = jwtUtils.getClaimByToken(token);
-        if (claims == null) {
-            // 没有获取到用户信息
-            resp.setContentType("application/json;charset=UTF-8");
-            resp.getWriter().write(objectMapper.writeValueAsString(ServerResponse.createByEnum(ResponseCode.UNAUTHORIZED)));
-            return;
+
+        if(RequestHolder.getCurrentUser() == null || RequestHolder.getCurrentRequest() == null) {
+            String token = StringUtils.substringAfter(header, "bearer ");
+            //todo 从token中解析出用户
+            Claims claims = jwtUtils.getClaimByToken(token);
+            if (claims == null) {
+                // 没有获取到用户信息
+                resp.setContentType("application/json;charset=UTF-8");
+                resp.getWriter().write(objectMapper.writeValueAsString(ServerResponse.createByEnum(ResponseCode.UNAUTHORIZED)));
+                return;
+            }
+            RequestHolder.add(SysUser.builder().id((Integer) claims.get("userId")).username((String) claims.get("username"))
+                    .telephone((String)claims.get("telephone")).mail((String) claims.get("mail")).build());
+            RequestHolder.add(req);
         }
-        RequestHolder.add(SysUser.builder().id((Integer) claims.get("userId")).username((String) claims.get("username"))
-                .telephone((String)claims.get("telephone")).mail((String) claims.get("mail")).build());
-        RequestHolder.add(req);
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

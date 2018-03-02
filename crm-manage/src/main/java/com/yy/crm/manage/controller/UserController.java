@@ -3,6 +3,7 @@ package com.yy.crm.manage.controller;
 import com.yy.crm.common.response.ServerResponse;
 import com.yy.crm.security.app.social.AppSignUpUtils;
 import com.yy.crm.security.core.properties.SecurityProperties;
+import com.yy.crm.service.common.RequestHolder;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.apache.commons.lang.RandomStringUtils;
@@ -68,7 +69,7 @@ public class UserController {
         List<String> list = new ArrayList<>();
         list.add("admin");
         map.put("role",list);
-        map.put("name","路远林");
+        map.put("name", RequestHolder.getCurrentUser().getUsername());
         map.put("avatar","头像");
         map.put("introduction","介绍");
 

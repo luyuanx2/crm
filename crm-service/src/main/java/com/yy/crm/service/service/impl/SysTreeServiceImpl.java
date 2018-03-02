@@ -3,6 +3,7 @@ package com.yy.crm.service.service.impl;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.yy.crm.service.common.RequestHolder;
 import com.yy.crm.service.dto.AclLevelDto;
 import com.yy.crm.service.dto.DeptLevelDto;
 import com.yy.crm.service.mapper.SysAclMapper;
@@ -53,8 +54,9 @@ public class SysTreeServiceImpl implements SysTreeService {
 
     @Override
     public List<AclLevelDto> roleTree(int roleId) {
+        int userId = RequestHolder.getCurrentUser().getId();
         // 1、当前用户已分配的权限点
-        List<SysAcl> userAclList = sysCoreService.getCurrentUserAclList();
+        List<SysAcl> userAclList = sysCoreService.getCurrentUserAclList(userId);
         // 2、当前角色分配的权限点
         List<SysAcl> roleAclList = sysCoreService.getRoleAclList(roleId);
         // 3、当前系统所有权限点

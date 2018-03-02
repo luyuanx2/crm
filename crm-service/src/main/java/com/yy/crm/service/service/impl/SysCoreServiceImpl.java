@@ -36,8 +36,7 @@ public class SysCoreServiceImpl implements SysCoreService {
     private BaseCacheService redisCacheService;
 
     @Override
-    public List<SysAcl> getCurrentUserAclList() {
-        int userId = RequestHolder.getCurrentUser().getId();
+    public List<SysAcl> getCurrentUserAclList(int userId) {
         return getUserAclList(userId);
     }
 
@@ -59,14 +58,14 @@ public class SysCoreServiceImpl implements SysCoreService {
     }
 
     @Override
-    public List<String> getCurrentUserAclUrlListFromCache() {
-        int userId = RequestHolder.getCurrentUser().getId();
+    public List<String> getCurrentUserAclUrlListFromCache(int userId) {
+//        int userId = RequestHolder.getCurrentUser().getId();
         String cacheValue = redisCacheService.get(generateCacheKey(Const.CacheKey.USER_ACLS,String.valueOf(userId)));
         if (StringUtils.isBlank(cacheValue)) {
 
             List<String> urls = new ArrayList<>();
-            getCurrentUserAclList().forEach(item -> {
-                if (item.getStatus() == 0 && Const.Acl.BOTTON.equals(item.getType())) {
+            getCurrentUserAclList(userId).forEach(item -> {
+                if (item.getStatus() == 1 && Const.Acl.BOTTON.equals(item.getType())) {
                     urls.add(item.getUrl());
                 }
             });
@@ -75,6 +74,7 @@ public class SysCoreServiceImpl implements SysCoreService {
             }
             return urls;
         }
+        //todo 重新设置过期时间
         return JsonUtils.string2List(cacheValue, String.class);
     }
 

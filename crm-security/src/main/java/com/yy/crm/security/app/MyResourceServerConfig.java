@@ -91,8 +91,8 @@ public class MyResourceServerConfig extends ResourceServerConfigurerAdapter {
         authorizeConfigManager.config(http.authorizeRequests());
     }
 
-    //@Override
-    //public void configure(ResourceServerSecurityConfigurer resources) {
-    //    resources.expressionHandler(expressionHandler);
-    //}
+    @Override
+    public void configure(ResourceServerSecurityConfigurer resources) {
+        resources.expressionHandler(expressionHandler);
+    }
 }
