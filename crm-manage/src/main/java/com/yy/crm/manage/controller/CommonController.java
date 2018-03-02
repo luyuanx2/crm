@@ -3,6 +3,7 @@ package com.yy.crm.manage.controller;
 import com.yy.crm.common.response.ServerResponse;
 import com.yy.crm.security.core.properties.SecurityProperties;
 import com.yy.crm.utils.MailUtil;
+import com.yy.crm.utils.YYUtil;
 import com.yy.crm.utils.shell.ShellResult;
 import com.yy.crm.utils.shell.ShellUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * @author luyuanyuan on 2018/3/2.
@@ -32,9 +34,18 @@ public class CommonController {
     @Autowired
     private MailUtil mailUtil;
 
+    public static void main(String[] args) {
+        System.out.println(Arrays.toString("c8ef7791d423bbf664f5fc006efac4755f256fed".getBytes()));
+        System.out.println(YYUtil.encode("lyy"));
+
+//        signature = 'sha1=' + hmac.new(APP_KEY, request.body, hashlib.sha1).hexdigest()
+//        if signature == request.META.get('HTTP_X_HUB_SIGNATURE'):
+//        do_something()
+    }
     @PostMapping("/pushCallback")
-    public ServerResponse pushCallback(HttpServletRequest request,HttpServletResponse response) {
+    public ServerResponse pushCallback(HttpServletRequest request,HttpServletResponse response,String payload ) {
         String secret = request.getHeader("X-Hub-Signature");
+
 //        String email = "694436921@qq.com";
         if(securityProperties.getOauth2().getJwtSigningKey().equals(secret)){
             ShellResult shellResult = ShellUtil.exceCommand("/home/crm/deploy.sh");
