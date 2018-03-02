@@ -35,7 +35,7 @@ public class CommonController {
     @PostMapping("/pushCallback")
     public ServerResponse pushCallback(HttpServletRequest request,HttpServletResponse response) {
         String secret = request.getHeader("X-Hub-Signature");
-        String email = "694436921@qq.com";
+//        String email = "694436921@qq.com";
         if(securityProperties.getOauth2().getJwtSigningKey().equals(secret)){
             ShellResult shellResult = ShellUtil.exceCommand("/home/crm/deploy.sh");
             if(shellResult != null && shellResult.getCode() != 0){
