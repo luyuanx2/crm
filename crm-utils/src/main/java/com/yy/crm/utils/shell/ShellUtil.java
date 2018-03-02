@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 @Slf4j
 public class ShellUtil {
 
-    public static ShellResult exceCommand(String command) {
+    public static synchronized ShellResult exceCommand(String command) {
 
         InputStreamReader stdISR = null;
         InputStreamReader errISR = null;
