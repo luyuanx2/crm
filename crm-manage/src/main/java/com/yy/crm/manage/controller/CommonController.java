@@ -1,18 +1,17 @@
 package com.yy.crm.manage.controller;
 
-import com.yy.crm.common.response.ServerResponse;
 import com.yy.crm.security.core.properties.SecurityProperties;
 import com.yy.crm.utils.MailUtil;
 import com.yy.crm.utils.YYUtil;
 import com.yy.crm.utils.shell.ShellResult;
 import com.yy.crm.utils.shell.ShellUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.codec.digest.HmacUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.ServletException;
@@ -30,35 +29,39 @@ public class CommonController {
 
     @Autowired
     private SecurityProperties securityProperties;
-
     @Autowired
     private MailUtil mailUtil;
+    private static final String EOL = "\n";
+    private static final int SIGNATURE_LENGTH = 45;
 
-//    public static void main(String[] args) {
-//        SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(), "HmacSHA256");
-//        Mac.getInstance()
-////        signature = 'sha1=' + hmac.new(APP_KEY, request.body, hashlib.sha1).hexdigest()
-////        if signature == request.META.get('HTTP_X_HUB_SIGNATURE'):
-////        do_something()
-//    }
     @PostMapping("/pushCallback")
-    public ServerResponse pushCallback(HttpServletRequest request,HttpServletResponse response,String payload ) {
-        String secret = request.getHeader("X-Hub-Signature");
-        String system = "sha1="+YYUtil.genHMAC(payload,securityProperties.getOauth2().getJwtSigningKey());
-//        String email = "694436921@qq.com";
-        if(StringUtils.equals(secret,system)){
-            ShellResult shellResult = ShellUtil.exceCommand("/home/crm/deploy.sh");
-            if(shellResult != null && shellResult.getCode() != 0){
-//                mailUtil.sendHtmlMessage(email,"项目启动错误",shellResult.getErrorInfoList().toString());
-                return ServerResponse.createByErrorMessage("项目启动错误，错误信息："+shellResult.getErrorInfoList().toString());
-            }
-            return ServerResponse.createBySuccess();
-        }else {
-            log.error("pushCallback secret error");
-            response.setStatus(HttpStatus.FORBIDDEN.value());
-//            mailUtil.sendHtmlMessage(email,"pushCallback异常","secret错误");
-            return ServerResponse.createByErrorMessage("secret错误，错误的secret为："+secret);
+    public ResponseEntity<String> pushCallback(@RequestHeader("X-Hub-Signature") String signature,
+                                       @RequestBody String payload) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Webhook-Version", "1.0.0");
+        if (signature == null) {
+            return new ResponseEntity<>("No signature given." + EOL, headers,
+                    HttpStatus.BAD_REQUEST);
         }
+        String computed = String.format("sha1=%s", HmacUtils.hmacSha1Hex(securityProperties.getOauth2().getJwtSigningKey(), payload));
+        boolean invalidLength = signature.length() != SIGNATURE_LENGTH;
+
+        if (invalidLength || !YYUtil.constantTimeCompare(signature, computed)) {
+            return new ResponseEntity<>("Invalid signature." + EOL, headers,
+                    HttpStatus.UNAUTHORIZED);
+        }
+
+        ShellResult shellResult = ShellUtil.exceCommand("/home/crm/deploy.sh");
+        if(shellResult != null && shellResult.getCode() != 0){
+//                mailUtil.sendHtmlMessage(email,"项目启动错误",shellResult.getErrorInfoList().toString());
+            return new ResponseEntity<>("项目启动错误，错误信息："+shellResult.getErrorInfoList().toString(), headers, HttpStatus.OK);
+        }
+
+        int bytes = payload.getBytes().length;
+        StringBuilder message = new StringBuilder();
+        message.append("Signature OK.").append(EOL);
+        message.append(String.format("Received %d bytes.", bytes)).append(EOL);
+        return new ResponseEntity<>(message.toString(), headers, HttpStatus.OK);
 
     }
 
