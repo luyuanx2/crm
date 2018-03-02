@@ -35,8 +35,6 @@ public class CommonController {
     private MailUtil mailUtil;
 
 //    public static void main(String[] args) {
-//        System.out.println(Arrays.toString("c8ef7791d423bbf664f5fc006efac4755f256fed".getBytes()));
-//        System.out.println(YYUtil.encode("lyy"));
 //        SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(), "HmacSHA256");
 //        Mac.getInstance()
 ////        signature = 'sha1=' + hmac.new(APP_KEY, request.body, hashlib.sha1).hexdigest()
