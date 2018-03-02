@@ -1,7 +1,6 @@
 package com.yy.crm.manage.controller;
 
 import com.yy.crm.security.core.properties.SecurityProperties;
-import com.yy.crm.utils.MailUtil;
 import com.yy.crm.utils.YYUtil;
 import com.yy.crm.utils.shell.ShellResult;
 import com.yy.crm.utils.shell.ShellUtil;
@@ -29,8 +28,8 @@ public class CommonController {
 
     @Autowired
     private SecurityProperties securityProperties;
-    @Autowired
-    private MailUtil mailUtil;
+    //@Autowired
+    //private MailUtil mailUtil;
     private static final String EOL = "\n";
     private static final int SIGNATURE_LENGTH = 45;
 
