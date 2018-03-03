@@ -1,6 +1,8 @@
 package com.yy.crm.manage.controller;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.yy.crm.security.core.properties.SecurityProperties;
 import com.yy.crm.utils.YYUtil;
 import com.yy.crm.utils.shell.ShellResult;
@@ -42,6 +44,8 @@ public class CommonController {
     private static final String EOL = "\n";
     private static final int SIGNATURE_LENGTH = 45;
 
+    private static final String PROJECT_NAME_VUE_ADMIN = "vue-admin";
+
     @PostMapping("/pushCallback")
     public ResponseEntity<String> pushCallback(@RequestHeader("X-Hub-Signature") String signature,
                                        @RequestBody String payload) {
@@ -58,11 +62,19 @@ public class CommonController {
             return new ResponseEntity<>("Invalid signature." + EOL, headers,
                     HttpStatus.UNAUTHORIZED);
         }
+
+        JsonObject payloadObj = new JsonParser().parse(payload).getAsJsonObject();
+        String projectName = payloadObj.get("repository").getAsJsonObject().get("name").getAsString();
         singleThreadPool.execute(() -> {
-            ShellResult shellResult = ShellUtil.exceCommand("/home/crm/deploy.sh");
+            ShellResult shellResult;
+            if(PROJECT_NAME_VUE_ADMIN.equals(projectName)){
+                shellResult = ShellUtil.exceCommand("/home/crm/vue-admin.sh");
+            }else {
+                shellResult = ShellUtil.exceCommand("/home/crm/deploy.sh");
+            }
             if(shellResult != null && shellResult.getCode() != 0){
                 //mailUtil.sendHtmlMessage(email,"项目启动错误",shellResult.getErrorInfoList().toString());
-                log.error("pushCallback---项目启动错误，错误信息："+shellResult.getErrorInfoList().toString());
+                log.error(projectName+"---项目启动错误，错误信息："+shellResult.getErrorInfoList().toString());
             }
         });
 
@@ -89,4 +101,5 @@ public class CommonController {
         return;
 
     }
+
 }
