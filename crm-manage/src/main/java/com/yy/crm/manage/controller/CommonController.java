@@ -63,7 +63,7 @@ public class CommonController {
             ShellResult shellResult = ShellUtil.exceCommand("/home/crm/deploy.sh");
             if(shellResult != null && shellResult.getCode() != 0){
 //       mailUtil.sendHtmlMessage(email,"项目启动错误",shellResult.getErrorInfoList().toString());
-                log.error("aaaaaaaaaaaa");
+                log.error("aaaaaaaaaaaaaaa");
                 log.error("项目启动错误，错误信息："+shellResult.getErrorInfoList().toString());
             }
         });
