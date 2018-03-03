@@ -1,5 +1,6 @@
 package com.yy.crm.manage.controller;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.yy.crm.security.core.properties.SecurityProperties;
 import com.yy.crm.utils.MailUtil;
 import com.yy.crm.utils.YYUtil;
@@ -18,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.concurrent.*;
 
 /**
  * @author luyuanyuan on 2018/3/2.
@@ -26,6 +28,13 @@ import java.io.IOException;
 @RequestMapping("/common")
 @Slf4j
 public class CommonController {
+
+    private ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
+            .setNameFormat("demo-pool-%d").build();
+
+    ExecutorService singleThreadPool = new ThreadPoolExecutor(1, 1,
+            0L, TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
 
     @Autowired
     private SecurityProperties securityProperties;
@@ -50,15 +59,14 @@ public class CommonController {
             return new ResponseEntity<>("Invalid signature." + EOL, headers,
                     HttpStatus.UNAUTHORIZED);
         }
-
-        ShellResult shellResult = ShellUtil.exceCommand("/home/crm/deploy.sh");
-        if(shellResult != null && shellResult.getCode() != 0){
+        singleThreadPool.execute(() -> {
+            ShellResult shellResult = ShellUtil.exceCommand("/home/crm/deploy.sh");
+            if(shellResult != null && shellResult.getCode() != 0){
 //       mailUtil.sendHtmlMessage(email,"项目启动错误",shellResult.getErrorInfoList().toString());
-            return new ResponseEntity<>("项目启动错误，错误信息："+shellResult.getErrorInfoList().toString(), headers, HttpStatus.OK);
-        }
-
-        System.out.println("aaaaaaaaaaaaa");
-        System.out.println(shellResult.getErrorInfoList().toString()+"============="+shellResult.getStdInfoList().toString());
+                log.error("aaaaaaaaaaaa");
+                log.error("项目启动错误，错误信息："+shellResult.getErrorInfoList().toString());
+            }
+        });
 
         int bytes = payload.getBytes().length;
         StringBuilder message = new StringBuilder();
