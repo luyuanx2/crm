@@ -49,7 +49,7 @@ public class CommandStreamGobbler extends Thread{
                 if (br.ready() || commandResult == 2) {
                     if ((line = br.readLine()) != null) {
                         infoList.add(line);
-                        log.info(prefix + line);
+                        log.info(prefix +"---"+ line);
                     } else {
                         break;
                     }

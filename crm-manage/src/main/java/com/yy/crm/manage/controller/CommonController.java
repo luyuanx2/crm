@@ -2,7 +2,6 @@ package com.yy.crm.manage.controller;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.yy.crm.security.core.properties.SecurityProperties;
-import com.yy.crm.utils.MailUtil;
 import com.yy.crm.utils.YYUtil;
 import com.yy.crm.utils.shell.ShellResult;
 import com.yy.crm.utils.shell.ShellUtil;
@@ -29,17 +28,17 @@ import java.util.concurrent.*;
 @Slf4j
 public class CommonController {
 
-    private ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
+    private final ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
             .setNameFormat("demo-pool-%d").build();
 
-    ExecutorService singleThreadPool = new ThreadPoolExecutor(1, 1,
+    private final ExecutorService singleThreadPool = new ThreadPoolExecutor(1, 1,
             0L, TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<>(1024), namedThreadFactory, new ThreadPoolExecutor.AbortPolicy());
 
     @Autowired
     private SecurityProperties securityProperties;
-    @Autowired
-    private MailUtil mailUtil;
+    //@Autowired
+    //private MailUtil mailUtil;
     private static final String EOL = "\n";
     private static final int SIGNATURE_LENGTH = 45;
 
@@ -62,9 +61,8 @@ public class CommonController {
         singleThreadPool.execute(() -> {
             ShellResult shellResult = ShellUtil.exceCommand("/home/crm/deploy.sh");
             if(shellResult != null && shellResult.getCode() != 0){
-//       mailUtil.sendHtmlMessage(email,"项目启动错误",shellResult.getErrorInfoList().toString());
-                log.error("aaaaaaaaaaaaaaaaaa");
-                log.error("项目启动错误，错误信息："+shellResult.getErrorInfoList().toString());
+                //mailUtil.sendHtmlMessage(email,"项目启动错误",shellResult.getErrorInfoList().toString());
+                log.error("pushCallback---项目启动错误，错误信息："+shellResult.getErrorInfoList().toString());
             }
         });
 
@@ -76,7 +74,7 @@ public class CommonController {
 
     }
 
-    @RequestMapping("/redirect")
+    @GetMapping("/redirect")
     public void redir(String redirect, String code, String state, HttpServletResponse response,
                       HttpServletRequest request, RedirectAttributes redirectAttributes) throws IOException, ServletException {
 //        response.setStatus(301);
