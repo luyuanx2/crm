@@ -17,7 +17,6 @@ import com.yy.crm.service.service.SysLogService;
 import com.yy.crm.service.service.SysUserService;
 import com.yy.crm.service.service.base.BaseService;
 import com.yy.crm.utils.IpUtil;
-import com.yy.crm.utils.MailUtil;
 import com.yy.crm.utils.YYUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +39,8 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
     private SysUserMapper sysUserMapper;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private MailUtil mailUtil;
+    //@Autowired
+    //private MailUtil mailUtil;
     @Autowired
     private SysLogService sysLogService;
 
