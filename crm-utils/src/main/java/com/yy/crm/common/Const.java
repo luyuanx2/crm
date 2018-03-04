@@ -6,6 +6,7 @@ package com.yy.crm.common;
 public class Const {
 
     public static final String CURRENT_USER = "currentUser";
+    public static final String STARS = "******";
 
     public static final String ADMIN = "admin";
 

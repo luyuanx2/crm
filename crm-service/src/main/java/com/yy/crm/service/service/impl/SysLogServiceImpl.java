@@ -148,6 +148,8 @@ public class SysLogServiceImpl extends BaseService<SysLog> implements SysLogServ
 
     @Override
     public void saveUserLog(SysUser before, SysUser after) {
+        before.setPassword(Const.STARS);
+        after.setPassword(Const.STARS);
         SysLog sysLog = new SysLog();
         sysLog.setType(LogType.TYPE_USER);
         sysLog.setTargetId(after == null ? before.getId() : after.getId());
