@@ -24,7 +24,7 @@ public class IpUtil {
      * @return
      */
     public static String getRemoteIp(HttpServletRequest request) {
-        String ip = request.getHeader("x-real-ip");
+        String ip = request.getHeader("X-Real-IP");
         if (ip == null) {
             ip = request.getRemoteAddr();
         }
