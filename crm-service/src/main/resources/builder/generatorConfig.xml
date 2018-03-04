@@ -51,9 +51,15 @@
             <generatedKey column="id" identity="true" sqlStatement="Mysql"/>
             <columnOverride column="operate_time" javaType="java.time.LocalDateTime" />
         </table>-->
-        <table tableName="sys_log" domainObjectName="SysLog" >
+        <!--<table tableName="sys_log" domainObjectName="SysLog" >
             <generatedKey column="id" identity="true" sqlStatement="Mysql"/>
             <columnOverride column="operate_time" javaType="java.time.LocalDateTime" />
+        </table>-->
+
+        <table tableName="sys_visitor" domainObjectName="SysVisitor" >
+            <generatedKey column="ip" identity="true" sqlStatement="Mysql"/>
+            <columnOverride column="create_time" javaType="java.time.LocalDateTime" />
+            <columnOverride column="update_time" javaType="java.time.LocalDateTime" />
         </table>
 
     </context>

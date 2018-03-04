@@ -4,8 +4,11 @@ import com.yy.crm.common.response.ServerResponse;
 import com.yy.crm.security.app.social.AppSignUpUtils;
 import com.yy.crm.security.core.properties.SecurityProperties;
 import com.yy.crm.service.common.RequestHolder;
+import com.yy.crm.service.service.SysVisitorService;
+import com.yy.crm.utils.IpUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +32,17 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
     @Autowired
     private ProviderSignInUtils providerSignInUtils;
     @Autowired
     private SecurityProperties securityProperties;
-
     @Autowired
     private AppSignUpUtils appSignUpUtils;
+    @Autowired
+    private SysVisitorService sysVisitorService;
 
 
     @PostMapping("/regist")
@@ -57,6 +62,8 @@ public class UserController {
     @GetMapping("/info")
     //public Object getCurrentUser(@AuthenticationPrincipal UserDetails user){
     public ServerResponse getCurrentUser(Authentication user, HttpServletRequest request) throws UnsupportedEncodingException {
+        //保存新访客
+        saveVisitor(request);
         String header = request.getHeader("Authorization");
         String token = StringUtils.substringAfter(header, "bearer ");
         Claims claims = Jwts.parser().setSigningKey(securityProperties.getOauth2()
@@ -74,6 +81,12 @@ public class UserController {
         map.put("introduction","介绍");
 
         return ServerResponse.createBySuccess(map);
+    }
+
+    private void saveVisitor(HttpServletRequest request) {
+
+        log.info("外网ip"+IpUtil.getRemoteIp(request));
+        log.info("用户真实ip"+IpUtil.getUserIP(request));
     }
 
 

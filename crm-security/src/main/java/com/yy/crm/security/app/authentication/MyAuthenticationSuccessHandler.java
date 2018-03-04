@@ -33,13 +33,10 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
 
     @Autowired
     private SecurityProperties securityProperties;
-    
     @Autowired
     private ClientDetailsService clientDetailsService;//springboot 已经管理了该bean 可以直接注入
-
     @Autowired
     private ObjectMapper objectMapper;
-
     @Autowired
     private AuthorizationServerTokenServices authorizationServerTokenServices;
 
