@@ -16,7 +16,7 @@ public class ShellUtil {
         InputStreamReader stdISR = null;
         InputStreamReader errISR = null;
         Process process = null;
-        long timeout = 10 * 10000;
+        long timeout = 18 * 10000;
         try {
             process = Runtime.getRuntime().exec(command);
 

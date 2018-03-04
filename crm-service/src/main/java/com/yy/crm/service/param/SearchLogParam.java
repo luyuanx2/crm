@@ -1,5 +1,6 @@
 package com.yy.crm.service.param;
 
+import com.yy.crm.utils.YYUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,9 +24,9 @@ public class SearchLogParam {
 
     private String operator;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = YYUtil.STANDARD_FORMAT)
     private LocalDateTime beginTime;//yyyy-MM-dd HH:mm:ss
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = YYUtil.STANDARD_FORMAT)
     private LocalDateTime endTime;
 }
