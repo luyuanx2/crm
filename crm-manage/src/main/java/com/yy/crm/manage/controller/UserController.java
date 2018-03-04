@@ -84,7 +84,7 @@ public class UserController {
     }
 
     private void saveVisitor(HttpServletRequest request) {
-
+        log.info("aaaaaa"+request.getHeader("X-Real-IP"));
         log.info("外网ip"+IpUtil.getRemoteIp(request));
         log.info("用户真实ip"+IpUtil.getUserIP(request));
     }
