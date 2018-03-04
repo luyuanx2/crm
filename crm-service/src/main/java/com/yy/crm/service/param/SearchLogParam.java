@@ -1,10 +1,9 @@
 package com.yy.crm.service.param;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -24,9 +23,9 @@ public class SearchLogParam {
 
     private String operator;
 
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime beginTime;//yyyy-MM-dd HH:mm:ss
 
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
 }
