@@ -18,6 +18,14 @@ import javax.validation.constraints.NotNull;
 public class SysUserParam {
     private Integer id;
 
+    //@NotBlank(message = "真实姓名不可以为空")
+    //@Length(min = 1, max = 10, message = "真实姓名长度需要在10个字以内")
+    private String realName;
+
+    //@NotBlank(message = "工号不可以为空")
+    //@Length(min = 1, max = 32, message = "工号长度需要在32个字以内")
+    private String jobNum;
+
     @NotBlank(message = "用户名不可以为空")
     @Length(min = 1, max = 20, message = "用户名长度需要在20个字以内")
     private String username;

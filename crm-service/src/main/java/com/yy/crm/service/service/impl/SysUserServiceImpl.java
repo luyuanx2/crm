@@ -81,7 +81,8 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
         Preconditions.checkNotNull(before, "待更新的用户不存在");
         SysUser after = SysUser.builder().id(param.getId()).username(param.getUsername())
                 .telephone(param.getTelephone()).mail(param.getMail())
-                .deptId(param.getDeptId()).status(param.getStatus()).remark(param.getRemark()).build();
+                .deptId(param.getDeptId()).status(param.getStatus())
+                .remark(param.getRemark()).jobNum(param.getJobNum()).realName(param.getRealName()).build();
         after.setOperator(RequestHolder.getCurrentUser().getUsername());
         after.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         after.setOperateTime(LocalDateTime.now());
