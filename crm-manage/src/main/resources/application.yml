@@ -20,9 +20,9 @@ spring:
     mail:
       default-encoding: UTF-8
       host: smtp.163.com
-      username: spring_boot@163.com
-      password: abc123455
-#      port: 25
+      username: luyuanx2@163.com
+      password: 122525lll
+      port: 465
       test-connection: false
       properties:
             mail:
