@@ -17,9 +17,11 @@ import com.yy.crm.service.service.SysLogService;
 import com.yy.crm.service.service.SysUserService;
 import com.yy.crm.service.service.base.BaseService;
 import com.yy.crm.utils.IpUtil;
+import com.yy.crm.utils.MailUtil;
 import com.yy.crm.utils.YYUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.weekend.Weekend;
@@ -39,8 +41,8 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
     private SysUserMapper sysUserMapper;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    //@Autowired
-    //private MailUtil mailUtil;
+    @Autowired
+    private MailUtil mailUtil;
     @Autowired
     private SysLogService sysLogService;
 
@@ -50,9 +52,9 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
         if (checkTelephoneExist(param.getTelephone(), param.getId())) {
             throw new ParamException(RbacCode.MOBILE_ALREADY_EXIST);
         }
-        if (checkEmailExist(param.getMail(), param.getId())) {
-            throw new ParamException(RbacCode.EMAIL_ALREADY_EXIST);
-        }
+        //if (checkEmailExist(param.getMail(), param.getId())) {
+        //    throw new ParamException(RbacCode.EMAIL_ALREADY_EXIST);
+        //}
         String password = YYUtil.randomPassword();
         String encodePassword = passwordEncoder.encode("654632");
         SysUser user = SysUser.builder().username(param.getUsername()).telephone(param.getTelephone()).mail(param.getMail())
@@ -61,12 +63,19 @@ public class SysUserServiceImpl extends BaseService<SysUser> implements SysUserS
         user.setOperateIp(IpUtil.getRemoteIp(RequestHolder.getCurrentRequest()));
         user.setOperateTime(LocalDateTime.now());
 
-        // TODO: sendEmail
+        // 异步发送邮件
+        sendMail(user.getMail(),"注册成功",mailUtil.getMailCapacity(password,user.getUsername()));
 //        mailUtil.sendHtmlMessage(user.getMail(),"注册成功",mailUtil.getMailCapacity(password,user.getUsername()));
 
         this.saveSelective(user);
         sysLogService.saveUserLog(null, user);
     }
+
+    @Async
+    public void sendMail(String mail, String title, String mailCapacity) {
+        mailUtil.sendHtmlMessage(mail,title,mailCapacity);
+    }
+
 
     @Override
     public void update(SysUserParam param) {
