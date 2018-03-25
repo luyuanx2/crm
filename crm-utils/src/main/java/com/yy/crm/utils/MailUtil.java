@@ -8,6 +8,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
@@ -41,6 +42,7 @@ public class MailUtil {
         mailSender.send(message);
     }
 
+    @Async
     public void sendHtmlMessage(String to,String subject,String content) {
         MimeMessage message;
         message = mailSender.createMimeMessage();
