@@ -22,15 +22,20 @@ spring:
       host: smtp.163.com
       username: luyuanx2@163.com
       password: 122525lll
-      port: 465
+#      port: 25
       test-connection: false
       properties:
             mail:
               smtp:
+                port: 465
                 auth: true
                 starttls:
                   enable: true
                   required: true
+                socketFactory:
+                  port: 465
+                  fallback: false
+                  class: javax.net.ssl.SSLSocketFactory
 #                connectiontimeout: 5000
 #                timeout: 3000
 #                writetimeout: 5000
